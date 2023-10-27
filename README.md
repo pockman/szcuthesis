@@ -1,13 +1,13 @@
-# 中国科学技术大学学位论文 LaTeX 模板
+# 苏州城市学院学位论文 LaTeX 模板
 
 [![GitHub release](https://img.shields.io/github/release/szcutug/szcuthesis/all.svg)](https://github.com/szcutug/szcuthesis/releases/latest)
 [![GitHub commits](https://img.shields.io/github/commits-since/szcutug/szcuthesis/latest.svg)](https://github.com/szcutug/szcuthesis/commits/master)
 [![Build](https://github.com/szcutug/szcuthesis/actions/workflows/main.yml/badge.svg)](https://github.com/szcutug/szcuthesis/actions/workflows/main.yml)
 
-本项目是中国科学技术大学的学位论文 LaTeX 模板 szcuthesis，按照最新版的
+本项目是苏州城市学院的学位论文 LaTeX 模板 szcuthesis，按照最新版的
 《[研究生学位论文撰写手册](https://gradschool.szcu.edu.cn/static/upload/article/picture/ce3b02e5f0274c90b9331ef50ae1ac26.pdf)》
 和
-《[中国科学技术大学本科毕业论文（设计）格式](https://www.teach.szcu.edu.cn/?attachment_id=13867)》
+《[苏州城市学院本科毕业论文（设计）格式](https://www.teach.szcu.edu.cn/?attachment_id=13867)》
 的要求编写，兼容最新版的 TeX Live、MacTeX 、MiKTeX 发行版，支持跨平台使用。
 
 注意：

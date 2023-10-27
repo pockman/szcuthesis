@@ -1,6 +1,3 @@
-%
-% Copyright (C) 2015-2023 by USTC TeX Users Group <https://github.com/szcutug>
-%
 % This file may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
@@ -12,7 +9,7 @@
 
 \NeedsTeXFormat{LaTeX2e}[2017/04/15]
 \newcommand\szcuthesisversion{3.3.4}
-\ProvidesClass{szcuthesis}[2023/05/10 {\szcuthesisversion} USTC thesis template]
+\ProvidesClass{szcuthesis}[2023/05/10 {\szcuthesisversion} SZCU thesis template]
 
 % 报错和警告
 \newcommand\szcu@error[1]{%
@@ -1565,10 +1562,10 @@
   \else
     %
     % 本科生要求除封面、扉页外，每面上部加页眉，
-    % 用小 5 号字（9 bp）标注“中国科学技术大学本科毕业论文”，居中；
+    % 用小 5 号字（9 bp）标注“苏州城市学院本科毕业论文”，居中；
     % 从目录页开始在每面底部居中用小五宋体（9 bp）连续编页码。
     \def\szcu@hf@font{\fontsize{9bp}{12bp}\selectfont}
-    \fancyhead[C]{\szcu@hf@font 中国科学技术大学本科毕业论文}%
+    \fancyhead[C]{\szcu@hf@font 苏州城市学院本科毕业论文}%
     \fancyfoot[C]{\szcu@hf@font\thepage}%
     \let\@mkboth\@gobbletwo
     \let\chaptermark\@gobble
@@ -2110,7 +2107,7 @@
   研究成果。%
   与我一同工作的同志对本研究所做的贡献均已在论文中作了明确的说明。}
 \newcommand\szcu@authorization{%
-  作为申请学位的条件之一，学位论文著作权拥有者授权中国科学技术大学拥有%
+  作为申请学位的条件之一，学位论文著作权拥有者授权苏州城市学院拥有%
   学位论文的部分使用权，%
   即：学校有权按有关规定向国家有关部门或机构送交论文的复印件和电子版，%
   允许论文被查阅和借阅，可以将学位论文编入《中国学位论文全文数据库》等%
@@ -2132,7 +2129,7 @@
     \null
     \vskip 0.3cm%
     {\centering\sffamily\fontsize{16bp}{32bp}\selectfont
-      中国科学技术大学学位论文原创性声明\par}%
+      苏州城市学院学位论文原创性声明\par}%
     \vskip 0.7cm%
     \szcu@originality\par
     \vskip 1.3cm%
@@ -2140,7 +2137,7 @@
     签字日期：\szcu@underline{}\par
     \vskip 1.9cm%
     {\centering\sffamily\fontsize{16bp}{32bp}\selectfont
-      中国科学技术大学学位论文授权使用声明\par}%
+      苏州城市学院学位论文授权使用声明\par}%
     \vskip 0.7cm%
     \szcu@authorization\par
     \vskip 0.6cm%
