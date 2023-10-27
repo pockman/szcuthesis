@@ -1,0 +1,26 @@
+# replace some logos 
+currently only for testing not the real ones.
+
+# texlive packages installed 
+  texlive-basic @66584_0+doc (active)
+  texlive-bin @2023.66589_1+x11 (active)
+  texlive-bin-extra @66529_0+doc (active)
+  texlive-common @2022_0
+  texlive-common @2023_0 (active)
+  texlive-fonts-extra @66328_0+doc (active)
+  texlive-fonts-recommended @65956_0+doc (active)
+  texlive-lang-chinese @66188_0+doc (active)
+  texlive-lang-cjk @66552_0+doc (active)
+  texlive-latex @66204_0+doc (active)
+  texlive-latex-extra @66551_0+doc (active)
+  texlive-latex-recommended @66587_0+doc (active)
+  texlive-math-science @66461_0+doc (active)
+  texlive-pictures @66549_0+doc (active)
+  texlive-plain-generic @66530_0+doc (active)
+  texlive-tlpdb @2022.62882_0
+  texlive-tlpdb @2023.66589_0 (active)
+  texlive-xetex @66394_0+doc (active)
+
+# replace some strings
+grep -rnc szcu | grep -v :0 | cut -d: -f1 | xargs sed "s/szcu/szcu/g"
+

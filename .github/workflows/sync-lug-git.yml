@@ -16,6 +16,6 @@ jobs:
 
       - uses: yesolutions/mirror-action@master
         with:
-          REMOTE: 'https://git.lug.ustc.edu.cn/ustctug/ustcthesis.git'
+          REMOTE: 'https://git.lug.szcu.edu.cn/szcutug/szcuthesis.git'
           GIT_USERNAME: ${{ secrets.GIT_LUG_USERNAME }}
           GIT_PASSWORD: ${{ secrets.GIT_LUG_PASSWORD }}

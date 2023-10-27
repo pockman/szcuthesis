@@ -1,6 +1,6 @@
 #!/usr/bin/env texlua
 
-module = "ustcthesis"
+module = "szcuthesis"
 
 testfiledir = "./test/testfiles"
 testsuppdir = "./test/support"
@@ -8,7 +8,7 @@ testsuppdir = "./test/support"
 demofiles = {"main.tex", "bib", "chapters"}
 installfiles = {"*.cls", "*.bst", "*.bbx", "*.cbx", "figures"}
 sourcefiles = {"*.cls", "*.bst", "*.bbx", "*.cbx", "figures"}
-tagfiles = {"*.cls", "ustcthesis-doc.tex", "CHANGELOG.md", "main.tex"}
+tagfiles = {"*.cls", "szcuthesis-doc.tex", "CHANGELOG.md", "main.tex"}
 
 checkengines = {"xetex"}
 stdengine = "xetex"
@@ -31,7 +31,7 @@ lvtext = ".tex"
 
 function update_tag(file, content, tagname, tagdate)
   tagname = string.gsub(tagname, "^v", "")
-  local url = "https://github.com/ustctug/ustcthesis"
+  local url = "https://github.com/szcutug/szcuthesis"
   local date = string.gsub(tagdate, "%-", "/")
 
   content = string.gsub(content,
@@ -39,11 +39,11 @@ function update_tag(file, content, tagname, tagdate)
   "Copyright (C) %1-" .. os.date("%Y"))
 
   if string.match(file, "%.cls$") then
-    content = string.gsub(content, "\\newcommand\\ustcthesisversion{[0-9.]+",
-      "\\newcommand\\ustcthesisversion{" .. tagname)
+    content = string.gsub(content, "\\newcommand\\szcuthesisversion{[0-9.]+",
+      "\\newcommand\\szcuthesisversion{" .. tagname)
 
-    content = string.gsub(content, "\\ProvidesClass{ustcthesis}%[%d%d%d%d/%d%d/%d%d",
-      "\\ProvidesClass{ustcthesis}[" .. date)
+    content = string.gsub(content, "\\ProvidesClass{szcuthesis}%[%d%d%d%d/%d%d/%d%d",
+      "\\ProvidesClass{szcuthesis}[" .. date)
 
   elseif string.match(file, "%-doc.tex") then
     content = string.gsub(content, "v[0-9.]+\\qquad %d%d%d%d%-%d%d%-%d%d",

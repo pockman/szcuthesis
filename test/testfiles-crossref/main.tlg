@@ -69,9 +69,9 @@ Completed box being shipped out [1]
 ...\write-{}
 ...\write-{}
 ...\write-{}
-...\marks1{\protect \ustc@spacetitle  {摘要}}
+...\marks1{\protect \szcu@spacetitle  {摘要}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {摘要}}{}}
+...\mark{{\protect \szcu@spacetitle  {摘要}}{}}
 ...\write-{}
 ...\glue(\topskip) 12.0
 ...\rule(0.0+0.0)x*
@@ -256,9 +256,9 @@ Completed box being shipped out [2]
 ..\glue(\lineskip) 0.0
 ..\vbox(700.50723+0.0)x417.11752, glue set 597.81601fil
 ...\write-{}
-...\marks1{\protect \ustc@spacetitle  {Abstract}}
+...\marks1{\protect \szcu@spacetitle  {Abstract}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {Abstract}}{}}
+...\mark{{\protect \szcu@spacetitle  {Abstract}}{}}
 ...\write-{}
 ...\glue(\topskip) 12.0
 ...\rule(0.0+0.0)x*
@@ -432,9 +432,9 @@ Completed box being shipped out [3]
 ..\vbox(700.50723+0.0)x417.11752, glue set 453.25697fil
 ...\write-{}
 ...\write-{}
-...\marks1{\protect \ustc@spacetitle  {目录}}
+...\marks1{\protect \szcu@spacetitle  {目录}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {目录}}{}}
+...\mark{{\protect \szcu@spacetitle  {目录}}{}}
 ...\write-{}
 ...\glue(\topskip) 12.0
 ...\rule(0.0+0.0)x*
@@ -984,9 +984,9 @@ Completed box being shipped out [5]
 ..\glue(\lineskip) 0.0
 ..\vbox(700.50723+0.0)x417.11752, glue set 635.06721fil
 ...\write-{}
-...\marks1{\protect \ustc@spacetitle  {符号说明}}
+...\marks1{\protect \szcu@spacetitle  {符号说明}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {符号说明}}{}}
+...\mark{{\protect \szcu@spacetitle  {符号说明}}{}}
 ...\write-{}
 ...\glue(\topskip) 12.0
 ...\rule(0.0+0.0)x*
@@ -1149,9 +1149,9 @@ Completed box being shipped out [1]
 ...\write-{}
 ...\write1{\pp@pagectr{footnote}{1}{\theabspage }{\thepage }}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{\protect \numberline {第1章}简介}{\thepage }{}\protected@file@percent }}
-...\marks1{第1章\hskip 1em\relax \protect \ustc@spacetitle  {简介}}
+...\marks1{第1章\hskip 1em\relax \protect \szcu@spacetitle  {简介}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{第1章\hskip 1em\relax \protect \ustc@spacetitle  {简介}}{}}
+...\mark{{第1章\hskip 1em\relax \protect \szcu@spacetitle  {简介}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0
@@ -1613,9 +1613,9 @@ Completed box being shipped out [2]
 ...\write-{}
 ...\write1{\pp@pagectr{footnote}{2}{\theabspage }{\thepage }}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{\protect \numberline {第2章}浮动体}{\thepage }{}\protected@file@percent }}
-...\marks1{第2章\hskip 1em\relax \protect \ustc@spacetitle  {浮动体}}
+...\marks1{第2章\hskip 1em\relax \protect \szcu@spacetitle  {浮动体}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{第2章\hskip 1em\relax \protect \ustc@spacetitle  {浮动体}}{}}
+...\mark{{第2章\hskip 1em\relax \protect \szcu@spacetitle  {浮动体}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0
@@ -1769,9 +1769,9 @@ Completed box being shipped out [3]
 ...\write-{}
 ...\write-{}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{参考文献}{\thepage }{}\protected@file@percent }}
-...\marks1{\protect \ustc@spacetitle  {参考文献}}
+...\marks1{\protect \szcu@spacetitle  {参考文献}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {参考文献}}{}}
+...\mark{{\protect \szcu@spacetitle  {参考文献}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0
@@ -1995,9 +1995,9 @@ Completed box being shipped out [4]
 ...\write-{}
 ...\write1{\pp@pagectr{footnote}{3}{\theabspage }{\thepage }}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{\protect \numberline {附录 A}附录章节}{\thepage }{}\protected@file@percent }}
-...\marks1{附录 A\hskip 1em\relax \protect \ustc@spacetitle  {附录章节}}
+...\marks1{附录 A\hskip 1em\relax \protect \szcu@spacetitle  {附录章节}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{附录 A\hskip 1em\relax \protect \ustc@spacetitle  {附录章节}}{}}
+...\mark{{附录 A\hskip 1em\relax \protect \szcu@spacetitle  {附录章节}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0
@@ -2153,9 +2153,9 @@ Completed box being shipped out [5]
 ..\vbox(700.50723+0.0)x417.11752, glue set 633.78255fil
 ...\write-{}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{致谢}{\thepage }{}\protected@file@percent }}
-...\marks1{\protect \ustc@spacetitle  {致谢}}
+...\marks1{\protect \szcu@spacetitle  {致谢}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {致谢}}{}}
+...\mark{{\protect \szcu@spacetitle  {致谢}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0
@@ -2333,9 +2333,9 @@ Completed box being shipped out [6]
 ..\vbox(700.50723+0.0)x417.11752, glue set 633.4413fil
 ...\write-{}
 ...\write1{\@writefile{toc}{\protect \contentsline {chapter}{在读期间发表的学术论文与取得的研究成果}{\thepage }{}\protected@file@percent }}
-...\marks1{\protect \ustc@spacetitle  {在读期间发表的学术论文与取得的研究成果}}
+...\marks1{\protect \szcu@spacetitle  {在读期间发表的学术论文与取得的研究成果}}
 ...\marks2{\prg_do_nothing: }
-...\mark{{\protect \ustc@spacetitle  {在读期间发表的学术论文与取得的研究成果}}{}}
+...\mark{{\protect \szcu@spacetitle  {在读期间发表的学术论文与取得的研究成果}}{}}
 ...\write1{\@writefile{lof}{\protect \addvspace {10.0pt}}}
 ...\write1{\@writefile{lot}{\protect \addvspace {10.0pt}}}
 ...\glue(\topskip) 12.0

@@ -1,9 +1,9 @@
 % !TeX root = ./main.tex
 
-\ustcsetup{
-  title              = {中国科学技术大学\\学位论文模板示例文档 v\ustcthesisversion},
+\szcusetup{
+  title              = {中国科学技术大学\\学位论文模板示例文档 v\szcuthesisversion},
   title*             = {An example of thesis template for University of Science
-                        and Technology of China v\ustcthesisversion},
+                        and Technology of China v\szcuthesisversion},
   author             = {李泽平},
   author*            = {Li Zeping},
   speciality         = {数学与应用数学},
@@ -49,23 +49,23 @@
 % 参考文献使用 BibTeX + natbib 宏包
 % 顺序编码制
 \usepackage[sort]{natbib}
-\bibliographystyle{ustcthesis-numerical}
+\bibliographystyle{szcuthesis-numerical}
 
 % 著者-出版年制
 % \usepackage{natbib}
-% \bibliographystyle{ustcthesis-authoryear}
+% \bibliographystyle{szcuthesis-authoryear}
 
 % 本科生参考文献的著录格式
 % \usepackage[sort]{natbib}
-% \bibliographystyle{ustcthesis-bachelor}
+% \bibliographystyle{szcuthesis-bachelor}
 
 % 参考文献使用 BibLaTeX 宏包
-% \usepackage[style=ustcthesis-numeric]{biblatex}
-% \usepackage[bibstyle=ustcthesis-numeric,citestyle=ustcthesis-inline]{biblatex}
-% \usepackage[style=ustcthesis-authoryear]{biblatex}
-% \usepackage[style=ustcthesis-bachelor]{biblatex}
+% \usepackage[style=szcuthesis-numeric]{biblatex}
+% \usepackage[bibstyle=szcuthesis-numeric,citestyle=szcuthesis-inline]{biblatex}
+% \usepackage[style=szcuthesis-authoryear]{biblatex}
+% \usepackage[style=szcuthesis-bachelor]{biblatex}
 % 声明 BibLaTeX 的数据库
-% \addbibresource{bib/ustc.bib}
+% \addbibresource{bib/szcu.bib}
 
 % 配置图片的默认目录
 \graphicspath{{figures/}}
@@ -74,7 +74,7 @@
 \makeatletter
 \newcommand\dif{%  % 微分符号
   \mathop{}\!%
-  \ifustc@math@style@TeX
+  \ifszcu@math@style@TeX
     d%
   \else
     \mathrm{d}%

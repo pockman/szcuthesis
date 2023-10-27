@@ -1,10 +1,10 @@
 %%
-%% This is file `variants/ustc/ustcthesis-bachelor.bst',
+%% This is file `variants/szcu/szcuthesis-bachelor.bst',
 %% generated with the docstrip utility.
 %%
 %% The original source files were:
 %%
-%% gbt7714.dtx  (with options: `2015,ustc-bachelor,numerical,no-uppercase,no-sentence-case,italic-book-title,no-mark,no-slash,short-journal,no-journal-strip-periods,italic-journal,page-range-delimiter-fullwidth-tilde,no-url,no-doi')
+%% gbt7714.dtx  (with options: `2015,szcu-bachelor,numerical,no-uppercase,no-sentence-case,italic-book-title,no-mark,no-slash,short-journal,no-journal-strip-periods,italic-journal,page-range-delimiter-fullwidth-tilde,no-url,no-doi')
 %% -------------------------------------------------------------------
 %% GB/T 7714 BibTeX Style
 %% https://github.com/zepinglee/gbt7714-bibtex-style

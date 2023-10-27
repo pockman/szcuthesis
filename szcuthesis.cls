@@ -1,5 +1,5 @@
 %
-% Copyright (C) 2015-2023 by USTC TeX Users Group <https://github.com/ustctug>
+% Copyright (C) 2015-2023 by USTC TeX Users Group <https://github.com/szcutug>
 %
 % This file may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3c
@@ -11,20 +11,20 @@
 %
 
 \NeedsTeXFormat{LaTeX2e}[2017/04/15]
-\newcommand\ustcthesisversion{3.3.4}
-\ProvidesClass{ustcthesis}[2023/05/10 {\ustcthesisversion} USTC thesis template]
+\newcommand\szcuthesisversion{3.3.4}
+\ProvidesClass{szcuthesis}[2023/05/10 {\szcuthesisversion} USTC thesis template]
 
 % 报错和警告
-\newcommand\ustc@error[1]{%
-  \ClassError{ustcthesis}{#1}{}%
+\newcommand\szcu@error[1]{%
+  \ClassError{szcuthesis}{#1}{}%
 }
-\newcommand\ustc@warning[1]{%
-  \ClassWarning{ustcthesis}{#1}%
+\newcommand\szcu@warning[1]{%
+  \ClassWarning{szcuthesis}{#1}%
 }
 
 % 检查 \LaTeXe{} kernel 版本
 \@ifl@t@r\fmtversion{2017/04/15}{}{
-  \ustc@error{%
+  \szcu@error{%
     TeX Live 2017 or later version is required to compile this document%
   }
 }
@@ -33,7 +33,7 @@
 \RequirePackage{iftex}
 \ifXeTeX\else
   \ifLuaTeX\else
-    \ustc@error{XeLaTeX or LuaLaTeX is required to compile this document}
+    \szcu@error{XeLaTeX or LuaLaTeX is required to compile this document}
   \fi
 \fi
 
@@ -44,17 +44,17 @@
 \RequirePackage{kvsetkeys}
 \RequirePackage{kvoptions}
 
-% 提供一个 \cs{ustcsetup} 命令支持 \emph{key-value} 的方式来设置。
-\let\ustc@setup@hook\@empty
-\newcommand\ustcsetup[1]{%
-  \let\ustc@setup@hook\@empty
-  \kvsetkeys{ustc}{#1}%
-  \ustc@setup@hook
+% 提供一个 \cs{szcusetup} 命令支持 \emph{key-value} 的方式来设置。
+\let\szcu@setup@hook\@empty
+\newcommand\szcusetup[1]{%
+  \let\szcu@setup@hook\@empty
+  \kvsetkeys{szcu}{#1}%
+  \szcu@setup@hook
 }
 
 % 同时用 \emph{key-value} 的方式来定义这些接口：
 % \begin{latex}
-%   \ustc@define@key{
+%   \szcu@define@key{
 %     <key> = {
 %       name = <name>,
 %       choices = {
@@ -70,93 +70,93 @@
 % 其中 |choices| 设置允许使用的值，默认为第一个（或者 \meta{default}）；
 % \meta{code} 是相应的内容被设置时执行的代码。
 
-\newcommand\ustc@define@key[1]{%
-  \kvsetkeys{ustc@key}{#1}%
+\newcommand\szcu@define@key[1]{%
+  \kvsetkeys{szcu@key}{#1}%
 }
-\kv@set@family@handler{ustc@key}{%
+\kv@set@family@handler{szcu@key}{%
 %
-% \cs{ustcsetup} 会将 \meta{value} 存到 \cs{ustc@\meta{key}}，
+% \cs{szcusetup} 会将 \meta{value} 存到 \cs{szcu@\meta{key}}，
 % 但是宏的名字包含 “-” 这样的特殊字符时不方便直接调用，比如 |key = math-style|，
 % 这时可以用 |name| 设置 \meta{key} 的别称，比如 |key = math@style|，
-% 这样就可以通过 \cs{ustc@math@style} 来引用。
+% 这样就可以通过 \cs{szcu@math@style} 来引用。
 % |default| 是定义该 \meta{key} 时默认的值，缺省为空。
 %
-  \@namedef{ustc@#1@@name}{#1}%
-  \def\ustc@@default{}%
-  \def\ustc@@choices{}%
-  \kv@define@key{ustc@value}{name}{%
-    \@namedef{ustc@#1@@name}{##1}%
+  \@namedef{szcu@#1@@name}{#1}%
+  \def\szcu@@default{}%
+  \def\szcu@@choices{}%
+  \kv@define@key{szcu@value}{name}{%
+    \@namedef{szcu@#1@@name}{##1}%
   }%
   %
-  % 由于在定义接口时，\cs{ustc@\meta{key}@@code} 不一定有定义，
+  % 由于在定义接口时，\cs{szcu@\meta{key}@@code} 不一定有定义，
   % 而且在文档类/宏包中还有可能对该 |key| 的 |code| 进行添加。
-  % 所以 \cs{ustc@\meta{key}@@code} 会检查如果在定义文档类/宏包时则推迟执行，否则立即执行。
+  % 所以 \cs{szcu@\meta{key}@@code} 会检查如果在定义文档类/宏包时则推迟执行，否则立即执行。
   %
-  \@namedef{ustc@#1@@check}{}%
-  \@namedef{ustc@#1@@code}{}%
+  \@namedef{szcu@#1@@check}{}%
+  \@namedef{szcu@#1@@code}{}%
   %
-  % 保存下 |choices = {}| 定义的内容，在定义 \cs{ustc@\meta{name}} 后再执行。
+  % 保存下 |choices = {}| 定义的内容，在定义 \cs{szcu@\meta{name}} 后再执行。
   %
-  \kv@define@key{ustc@value}{choices}{%
-    \def\ustc@@choices{##1}%
-    \@namedef{ustc@#1@@reset}{}%
+  \kv@define@key{szcu@value}{choices}{%
+    \def\szcu@@choices{##1}%
+    \@namedef{szcu@#1@@reset}{}%
     %
-    % \cs{ustc@\meta{key}@check} 检查 |value| 是否有效，
-    % 并设置 \cs{ifustc@\meta{name}@\meta{value}}。
+    % \cs{szcu@\meta{key}@check} 检查 |value| 是否有效，
+    % 并设置 \cs{ifszcu@\meta{name}@\meta{value}}。
     %
-    \@namedef{ustc@#1@@check}{%
+    \@namedef{szcu@#1@@check}{%
       \@ifundefined{%
-        ifustc@\@nameuse{ustc@#1@@name}@\@nameuse{ustc@\@nameuse{ustc@#1@@name}}%
+        ifszcu@\@nameuse{szcu@#1@@name}@\@nameuse{szcu@\@nameuse{szcu@#1@@name}}%
       }{%
-        \ustc@error{Invalid value "#1 = \@nameuse{ustc@\@nameuse{ustc@#1@@name}}"}%
+        \szcu@error{Invalid value "#1 = \@nameuse{szcu@\@nameuse{szcu@#1@@name}}"}%
       }%
-      \@nameuse{ustc@#1@@reset}%
-      \@nameuse{ustc@\@nameuse{ustc@#1@@name}@\@nameuse{ustc@\@nameuse{ustc@#1@@name}}true}%
+      \@nameuse{szcu@#1@@reset}%
+      \@nameuse{szcu@\@nameuse{szcu@#1@@name}@\@nameuse{szcu@\@nameuse{szcu@#1@@name}}true}%
     }%
   }%
-  \kv@define@key{ustc@value}{default}{%
-    \def\ustc@@default{##1}%
+  \kv@define@key{szcu@value}{default}{%
+    \def\szcu@@default{##1}%
   }%
-  \kvsetkeys{ustc@value}{#2}%
-  \@namedef{ustc@\@nameuse{ustc@#1@@name}}{}%
+  \kvsetkeys{szcu@value}{#2}%
+  \@namedef{szcu@\@nameuse{szcu@#1@@name}}{}%
   %
   % 第一个 \meta{choice} 设为 \meta{default}，
-  % 并且对每个 \meta{choice} 定义 \cs{ifustc@\meta{name}@\meta{choice}}。
+  % 并且对每个 \meta{choice} 定义 \cs{ifszcu@\meta{name}@\meta{choice}}。
   %
-  \kv@set@family@handler{ustc@choice}{%
-    \ifx\ustc@@default\@empty
-      \def\ustc@@default{##1}%
+  \kv@set@family@handler{szcu@choice}{%
+    \ifx\szcu@@default\@empty
+      \def\szcu@@default{##1}%
     \fi
-    \expandafter\newif\csname ifustc@\@nameuse{ustc@#1@@name}@##1\endcsname
-    \expandafter\g@addto@macro\csname ustc@#1@@reset\endcsname{%
-      \@nameuse{ustc@\@nameuse{ustc@#1@@name}@##1false}%
+    \expandafter\newif\csname ifszcu@\@nameuse{szcu@#1@@name}@##1\endcsname
+    \expandafter\g@addto@macro\csname szcu@#1@@reset\endcsname{%
+      \@nameuse{szcu@\@nameuse{szcu@#1@@name}@##1false}%
     }%
   }%
-  \kvsetkeys@expandafter{ustc@choice}{\ustc@@choices}%
+  \kvsetkeys@expandafter{szcu@choice}{\szcu@@choices}%
   %
-  % 将 \meta{default} 赋值到 \cs{ustc@\meta{name}}，如果非空则执行相应的代码。
+  % 将 \meta{default} 赋值到 \cs{szcu@\meta{name}}，如果非空则执行相应的代码。
   %
-  \expandafter\let\csname ustc@\@nameuse{ustc@#1@@name}\endcsname\ustc@@default
-  \expandafter\ifx\csname ustc@\@nameuse{ustc@#1@@name}\endcsname\@empty\else
-    \@nameuse{ustc@#1@@check}%
+  \expandafter\let\csname szcu@\@nameuse{szcu@#1@@name}\endcsname\szcu@@default
+  \expandafter\ifx\csname szcu@\@nameuse{szcu@#1@@name}\endcsname\@empty\else
+    \@nameuse{szcu@#1@@check}%
   \fi
   %
-  % 定义 \cs{ustcsetup} 接口。
+  % 定义 \cs{szcusetup} 接口。
   %
-  \kv@define@key{ustc}{#1}{%
-    \@namedef{ustc@\@nameuse{ustc@#1@@name}}{##1}%
-    \@nameuse{ustc@#1@@check}%
-    \@nameuse{ustc@#1@@code}%
+  \kv@define@key{szcu}{#1}{%
+    \@namedef{szcu@\@nameuse{szcu@#1@@name}}{##1}%
+    \@nameuse{szcu@#1@@check}%
+    \@nameuse{szcu@#1@@code}%
   }%
 }
 
 % 定义接口向 |key| 添加 |code|：
 
-\newcommand\ustc@option@hook[2]{%
-  \expandafter\g@addto@macro\csname ustc@#1@@code\endcsname{#2}%
+\newcommand\szcu@option@hook[2]{%
+  \expandafter\g@addto@macro\csname szcu@#1@@code\endcsname{#2}%
 }
 
-\ustc@define@key{
+\szcu@define@key{
   degree = {
     choices = {
       doctor,
@@ -346,26 +346,26 @@
   },
 }
 
-% 将 \ustc@cite@style 置空方便后续进行判断。
-\def\ustc@cite@style{}
+% 将 \szcu@cite@style 置空方便后续进行判断。
+\def\szcu@cite@style{}
 
-\newif\ifustc@degree@graduate
-\newcommand\ustc@set@graduate{%
-  \ifustc@degree@bachelor
-    \ustc@degree@graduatefalse
+\newif\ifszcu@degree@graduate
+\newcommand\szcu@set@graduate{%
+  \ifszcu@degree@bachelor
+    \szcu@degree@graduatefalse
   \else
-    \ustc@degree@graduatetrue
+    \szcu@degree@graduatetrue
   \fi
 }
-\ustc@set@graduate
-\ustc@option@hook{degree}{%
-  \ustc@set@graduate
+\szcu@set@graduate
+\szcu@option@hook{degree}{%
+  \szcu@set@graduate
 }
 
 % 使用 \pkg{kvoptions} 提供的 key-value 接口，
 \SetupKeyvalOptions{
-  family  = ustc,
-  prefix  = ustc@,
+  family  = szcu,
+  prefix  = szcu@,
   setkeys = \kvsetkeys,
 }
 
@@ -375,22 +375,22 @@
 
 % 兼容旧版本的文档类选项。
 % Reserved for compatibility until 2020-07-01.
-\DeclareVoidOption{doctor}{\ustcsetup{degree=doctor}}
-\DeclareVoidOption{master}{\ustcsetup{degree=master}}
-\DeclareVoidOption{bachelor}{\ustcsetup{degree=bachelor}}
-\DeclareVoidOption{chinese}{\ustcsetup{language=chinese}}
-\DeclareVoidOption{english}{\ustcsetup{language=english}}
-\DeclareVoidOption{academic}{\ustcsetup{degree-type=academic}}
-\DeclareVoidOption{professional}{\ustcsetup{degree-type=professional}}
-\DeclareVoidOption{print}{\ustcsetup{output=print}}
-\DeclareVoidOption{pdf}{\ustcsetup{output=electronic}}
-\newif\ifustc@legacy@cite@style
-\DeclareVoidOption{super}{\ustcsetup{cite-style=super}\ustc@legacy@cite@styletrue}
-\DeclareVoidOption{numbers}{\ustcsetup{cite-style=inline}\ustc@legacy@cite@styletrue}
-\DeclareVoidOption{authoryear}{\ustcsetup{cite-style=authoryear}\ustc@legacy@cite@styletrue}
-\DeclareVoidOption{arabic}{\ustcsetup{section-style=arabic}}
-\DeclareVoidOption{colorlogo}{\ustcsetup{badge-color=blue}}
-\DeclareVoidOption{bwlogo}{\ustcsetup{badge-color=black}}
+\DeclareVoidOption{doctor}{\szcusetup{degree=doctor}}
+\DeclareVoidOption{master}{\szcusetup{degree=master}}
+\DeclareVoidOption{bachelor}{\szcusetup{degree=bachelor}}
+\DeclareVoidOption{chinese}{\szcusetup{language=chinese}}
+\DeclareVoidOption{english}{\szcusetup{language=english}}
+\DeclareVoidOption{academic}{\szcusetup{degree-type=academic}}
+\DeclareVoidOption{professional}{\szcusetup{degree-type=professional}}
+\DeclareVoidOption{print}{\szcusetup{output=print}}
+\DeclareVoidOption{pdf}{\szcusetup{output=electronic}}
+\newif\ifszcu@legacy@cite@style
+\DeclareVoidOption{super}{\szcusetup{cite-style=super}\szcu@legacy@cite@styletrue}
+\DeclareVoidOption{numbers}{\szcusetup{cite-style=inline}\szcu@legacy@cite@styletrue}
+\DeclareVoidOption{authoryear}{\szcusetup{cite-style=authoryear}\szcu@legacy@cite@styletrue}
+\DeclareVoidOption{arabic}{\szcusetup{section-style=arabic}}
+\DeclareVoidOption{colorlogo}{\szcusetup{badge-color=blue}}
+\DeclareVoidOption{bwlogo}{\szcusetup{badge-color=black}}
 
 % 载入 \cls{ctexbook}。
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{ctexbook}}
@@ -399,13 +399,13 @@
 
 % \subsection{加载文档类和宏包}
 
-\ifustc@openright
+\ifszcu@openright
   \PassOptionsToClass{openright}{book}
 \else
   \PassOptionsToClass{openany}{book}
 \fi
 
-\ifustc@output@electronic
+\ifszcu@output@electronic
   \PassOptionsToClass{oneside}{book}
 \fi
 \PassOptionsToPackage{no-math}{fontspec}
@@ -438,48 +438,48 @@
 
 % 对冲突的宏包报错。
 \RequirePackage{filehook}
-\newcommand\ustc@package@conflict[2]{
+\newcommand\szcu@package@conflict[2]{
   \AtEndOfPackageFile*{#1}{%
     \AtBeginOfPackageFile*{#2}{%
-      \ustc@error{The "#2" package is incompatible with "#1"}%
+      \szcu@error{The "#2" package is incompatible with "#1"}%
     }%
   }%
 }
 
-\ustc@package@conflict{biblatex}{bibunits}
-\ustc@package@conflict{biblatex}{chapterbib}
-\ustc@package@conflict{biblatex}{cite}
-\ustc@package@conflict{biblatex}{multibib}
-\ustc@package@conflict{biblatex}{natbib}
+\szcu@package@conflict{biblatex}{bibunits}
+\szcu@package@conflict{biblatex}{chapterbib}
+\szcu@package@conflict{biblatex}{cite}
+\szcu@package@conflict{biblatex}{multibib}
+\szcu@package@conflict{biblatex}{natbib}
 
-\ustc@package@conflict{bibunits}{biblatex}
-\ustc@package@conflict{bibunits}{chapterbib}
-\ustc@package@conflict{bibunits}{multibib}
+\szcu@package@conflict{bibunits}{biblatex}
+\szcu@package@conflict{bibunits}{chapterbib}
+\szcu@package@conflict{bibunits}{multibib}
 
-\ustc@package@conflict{unicode-math}{amscd}
-\ustc@package@conflict{unicode-math}{amsfonts}
-\ustc@package@conflict{unicode-math}{amssymb}
-\ustc@package@conflict{unicode-math}{bbm}
-\ustc@package@conflict{unicode-math}{bm}
-\ustc@package@conflict{unicode-math}{eucal}
-\ustc@package@conflict{unicode-math}{eufrak}
-\ustc@package@conflict{unicode-math}{mathrsfs}
-\ustc@package@conflict{unicode-math}{newtxmath}
-\ustc@package@conflict{unicode-math}{upgreek}
+\szcu@package@conflict{unicode-math}{amscd}
+\szcu@package@conflict{unicode-math}{amsfonts}
+\szcu@package@conflict{unicode-math}{amssymb}
+\szcu@package@conflict{unicode-math}{bbm}
+\szcu@package@conflict{unicode-math}{bm}
+\szcu@package@conflict{unicode-math}{eucal}
+\szcu@package@conflict{unicode-math}{eufrak}
+\szcu@package@conflict{unicode-math}{mathrsfs}
+\szcu@package@conflict{unicode-math}{newtxmath}
+\szcu@package@conflict{unicode-math}{upgreek}
 
-\ustc@package@conflict{natbib}{biblatex}
-\ustc@package@conflict{natbib}{cite}
+\szcu@package@conflict{natbib}{biblatex}
+\szcu@package@conflict{natbib}{cite}
 
-\ustc@package@conflict{newtxmath}{amsfonts}
-\ustc@package@conflict{newtxmath}{amssymb}
-\ustc@package@conflict{newtxmath}{unicode-math}
-\ustc@package@conflict{newtxmath}{upgreek}
+\szcu@package@conflict{newtxmath}{amsfonts}
+\szcu@package@conflict{newtxmath}{amssymb}
+\szcu@package@conflict{newtxmath}{unicode-math}
+\szcu@package@conflict{newtxmath}{upgreek}
 
 
 % \pkg{amsthm} 需要在 \pkg{newtx} 前载入，参考 \pkg{newtx} 的文档。
 \AtBeginOfPackageFile*{amsthm}{
   \@ifpackageloaded{newtxmath}{
-    \ustc@error{The "amsthm" package should be loaded before setting "newtxmath"}
+    \szcu@error{The "amsthm" package should be loaded before setting "newtxmath"}
   }{}
 }%
 
@@ -487,22 +487,22 @@
 
 % \subsection{处理语言}
 
-% 定义 \cs{ustc@main@language}，当在导言区修改 \option{language} 时，
+% 定义 \cs{szcu@main@language}，当在导言区修改 \option{language} 时，
 % 保存为论文的主要语言；
-% \cs{ustc@reset@main@language} 则用于正文中恢复为主要语言。
+% \cs{szcu@reset@main@language} 则用于正文中恢复为主要语言。
 %    \begin{macrocode}
-\ustcsetup{main-language=\ustc@language}%
-\let\ustc@main@language\ustc@language
+\szcusetup{main-language=\szcu@language}%
+\let\szcu@main@language\szcu@language
 
-\ustc@option@hook{language}{%
+\szcu@option@hook{language}{%
   \ifx\@begindocumenthook\@undefined\else
-    \ustcsetup{main-language=\ustc@language}%
-    \let\ustc@main@language\ustc@language
+    \szcusetup{main-language=\szcu@language}%
+    \let\szcu@main@language\szcu@language
   \fi
 }
-\newcommand\ustc@reset@main@language{%
-  \ustcsetup{language = \ustc@main@language}%
-  \let\ustc@language\ustc@main@language
+\newcommand\szcu@reset@main@language{%
+  \szcusetup{language = \szcu@main@language}%
+  \let\szcu@language\szcu@main@language
 }
 
 % 带圈数字和星号使用中文字体。
@@ -526,8 +526,8 @@
 % U+201C、U+201D、U+2025、U+2026、U+2E3A，
 % 所以要根据语言设置正确的字体。
 % https://github.com/CTeX-org/ctex-kit/issues/389
-\newcommand\ustc@set@punctuations{%
-  \ifustc@language@chinese
+\newcommand\szcu@set@punctuations{%
+  \ifszcu@language@chinese
     \ifLuaTeX
       \ltjsetparameter{jacharrange={+9}}
     \else
@@ -551,16 +551,16 @@
     \fi
   \fi
 }
-\ustc@set@punctuations
-\ustc@option@hook{language}{\ustc@set@punctuations}
+\szcu@set@punctuations
+\szcu@option@hook{language}{\szcu@set@punctuations}
 
 % 根据语言设置各章节的名称，只有在导言区设置 \option{language} 时会修改，
 % 而在正文局部切换语言时则不变。
 
 % 由于《撰写手册》中的“speciality”一词使用的是英式拼法，
 % 所以“acknowledgements”也保持一致。
-\newcommand\ustc@set@chapter@names{%
-  \ifustc@main@language@chinese
+\newcommand\szcu@set@chapter@names{%
+  \ifszcu@main@language@chinese
     \def\contentsname{目录}%
     \def\listfigurename{插图清单}%
     \def\listtablename{表格清单}%
@@ -569,9 +569,9 @@
     }%
     \def\bibname{参考文献}%
     \def\appendixname{附录}%
-    \def\ustc@acknowledgements@name{致谢}%
-    \def\ustc@publication@name{在读期间发表的学术论文与取得的研究成果}%
-    \newcommand\ustc@notation@name{符号说明}%
+    \def\szcu@acknowledgements@name{致谢}%
+    \def\szcu@publication@name{在读期间发表的学术论文与取得的研究成果}%
+    \newcommand\szcu@notation@name{符号说明}%
   \else
     \def\contentsname{Contents}%
     \def\listfigurename{List of Figures}%
@@ -581,17 +581,17 @@
     }%
     \def\bibname{Bibliography}%
     \def\appendixname{Appendix}%
-    \def\ustc@acknowledgements@name{Acknowledgements}%
-    \def\ustc@publication@name{Publications}%
-    \def\ustc@notation@name{Notation}%
+    \def\szcu@acknowledgements@name{Acknowledgements}%
+    \def\szcu@publication@name{Publications}%
+    \def\szcu@notation@name{Notation}%
   \fi
 }
-\ustc@set@chapter@names
-\ustc@option@hook{main-language}{\ustc@set@chapter@names}
+\szcu@set@chapter@names
+\szcu@option@hook{main-language}{\szcu@set@chapter@names}
 
 % 这部分名称在正文中局部地修改语言时会发生变化。
-\newcommand\ustc@set@names{%
-  \ifustc@language@chinese
+\newcommand\szcu@set@names{%
+  \ifszcu@language@chinese
     \def\figurename{图}%
     \def\tablename{表}%
   \else
@@ -599,8 +599,8 @@
     \def\tablename{Table}%
   \fi
 }
-\ustc@set@names
-\ustc@option@hook{language}{\ustc@set@names}
+\szcu@set@names
+\szcu@option@hook{language}{\szcu@set@names}
 
 
 % \subsection{字体}
@@ -632,8 +632,8 @@
 % \end{table}
 %
 % 注意重定义 \normalsize 应在 \pkg{unicode-math} 的 \cs{setmathfont} 前。
-\newcommand\ustc@set@font@size{%
-  \ifustc@degree@graduate
+\newcommand\szcu@set@font@size{%
+  \ifszcu@degree@graduate
     \renewcommand\normalsize{%
       \@setfontsize\normalsize{12bp}{20bp}%
       \abovedisplayskip 12bp \@plus3bp \@minus7bp%
@@ -657,42 +657,42 @@
       \MakeRobust\normalsize
   \fi
 }
-\ustc@set@font@size
-\ustc@option@hook{degree}{\ustc@set@font@size}
+\szcu@set@font@size
+\szcu@option@hook{degree}{\szcu@set@font@size}
 
 % 设置行距的倍数为 1。
 \linespread{1}\selectfont
 
 
 % 检测系统
-\ifustc@system@auto
+\ifszcu@system@auto
   \IfFileExists{/System/Library/Fonts/Menlo.ttc}{
-    \ustcsetup{system = mac}
+    \szcusetup{system = mac}
   }{
     \IfFileExists{/dev/null}{
       \IfFileExists{null:}{
-        \ustcsetup{system = windows}
+        \szcusetup{system = windows}
       }{
-        \ustcsetup{system = unix}
+        \szcusetup{system = unix}
       }
     }{
-      \ustcsetup{system = windows}
+      \szcusetup{system = windows}
     }
   }
 \fi
 
 % 处理 \opt{fontset}
-\ifustc@fontset@auto
-  \ifustc@system@windows
-    \ustcsetup{fontset = windows}
+\ifszcu@fontset@auto
+  \ifszcu@system@windows
+    \szcusetup{fontset = windows}
   \else
-    \ifustc@system@mac
-      \ustcsetup{fontset = mac}
+    \ifszcu@system@mac
+      \szcusetup{fontset = mac}
     \else
       \IfFontExistsTF{Noto Serif CJK SC}{
-        \ustcsetup{fontset = ubuntu}
+        \szcusetup{fontset = ubuntu}
       }{
-        \ustcsetup{fontset = fandol}
+        \szcusetup{fontset = fandol}
       }
     \fi
   \fi
@@ -701,23 +701,23 @@
 % 《撰写手册》要求西文字体使用 Times New Roman 和 Arial，
 % 但是在 Linux 下没有这两个字体，所以使用它们的克隆版 TeX Gyre Termes 和
 % TeX Gyre Heros。
-\ifustc@font@auto
-  \ifustc@fontset@windows
-    \ustcsetup{font=times}
+\ifszcu@font@auto
+  \ifszcu@fontset@windows
+    \szcusetup{font=times}
   \else
-    \ifustc@fontset@mac
-      \ustcsetup{font=times}
+    \ifszcu@fontset@mac
+      \szcusetup{font=times}
     \else
-      \ustcsetup{font=termes}
+      \szcusetup{font=termes}
     \fi
   \fi
 \fi
 
 % Times New Roman + Arial
-\newcommand\ustc@set@font@times{%
+\newcommand\szcu@set@font@times{%
   \setmainfont{Times New Roman}%
   \setsansfont{Arial}%
-  \ifustc@system@mac
+  \ifszcu@system@mac
     \setmonofont{Menlo}[Scale = MatchLowercase]%
   \else
     \setmonofont{Courier New}[Scale = MatchLowercase]%
@@ -725,7 +725,7 @@
 }
 
 % TeX Gyre Termes
-\newcommand\ustc@set@font@termes{%
+\newcommand\szcu@set@font@termes{%
   \setmainfont{texgyretermes}[
     Extension      = .otf,
     UprightFont    = *-regular,
@@ -733,10 +733,10 @@
     ItalicFont     = *-italic,
     BoldItalicFont = *-bolditalic,
   ]%
-  \ustc@set@texgyre@sans@mono
+  \szcu@set@texgyre@sans@mono
 }
 
-\newcommand\ustc@set@texgyre@sans@mono{%
+\newcommand\szcu@set@texgyre@sans@mono{%
   \setsansfont{texgyreheros}[
     Extension      = .otf,
     UprightFont    = *-regular,
@@ -759,107 +759,107 @@
 % STIX 文件名在 v2.10 2020-12-19 从
 % \file{STIX2Text-Regular.otf}、\file{STIX2Math.otf} 分别改为
 % \file{STIXTwoText-Regular.otf}、\file{STIXTwoMath-Regular.otf}。
-\let\ustc@font@family@stix\@empty
-\newcommand\ustc@set@stix@names{%
-  \ifx\ustc@font@family@stix\@empty
+\let\szcu@font@family@stix\@empty
+\newcommand\szcu@set@stix@names{%
+  \ifx\szcu@font@family@stix\@empty
     \IfFontExistsTF{STIXTwoText-Regular.otf}{%
-      \gdef\ustc@font@family@stix{STIXTwoText}%
-      \gdef\ustc@font@name@stix@math{STIXTwoMath-Regular}%
+      \gdef\szcu@font@family@stix{STIXTwoText}%
+      \gdef\szcu@font@name@stix@math{STIXTwoMath-Regular}%
     }{%
-      \gdef\ustc@font@family@stix{STIX2Text}%
-      \gdef\ustc@font@name@stix@math{STIX2Math}%
+      \gdef\szcu@font@family@stix{STIX2Text}%
+      \gdef\szcu@font@name@stix@math{STIX2Math}%
     }%
   \fi
 }
 
-\newcommand\ustc@set@font@stix{%
-  \ustc@set@stix@names
-  \setmainfont{\ustc@font@family@stix}[
+\newcommand\szcu@set@font@stix{%
+  \szcu@set@stix@names
+  \setmainfont{\szcu@font@family@stix}[
     Extension      = .otf,
     UprightFont    = *-Regular,
     BoldFont       = *-Bold,
     ItalicFont     = *-Italic,
     BoldItalicFont = *-BoldItalic,
   ]%
-  \ustc@set@texgyre@sans@mono
+  \szcu@set@texgyre@sans@mono
 }
 
 % XITS 字体。
 % XITS 的文件名在 v1.109 2018-09-30
 % 从 \file{xits-regular.otf}、\file{xits-math.otf} 分别改为
 % \file{XITS-Regular.otf}、\file{XITSMath-Regular.otf}。
-\let\ustc@font@family@xits\@empty
-\newcommand\ustc@set@xits@names{%
-  \ifx\ustc@font@family@xits\@empty
+\let\szcu@font@family@xits\@empty
+\newcommand\szcu@set@xits@names{%
+  \ifx\szcu@font@family@xits\@empty
     \IfFontExistsTF{XITSMath-Regular.otf}{%
-      \gdef\ustc@font@family@xits{XITS}%
-      \gdef\ustc@font@style@xits@rm{Regular}%
-      \gdef\ustc@font@style@xits@bf{Bold}%
-      \gdef\ustc@font@style@xits@it{Italic}%
-      \gdef\ustc@font@style@xits@bfit{BoldItalic}%
-      \gdef\ustc@font@name@xits@math{XITSMath-Regular}%
+      \gdef\szcu@font@family@xits{XITS}%
+      \gdef\szcu@font@style@xits@rm{Regular}%
+      \gdef\szcu@font@style@xits@bf{Bold}%
+      \gdef\szcu@font@style@xits@it{Italic}%
+      \gdef\szcu@font@style@xits@bfit{BoldItalic}%
+      \gdef\szcu@font@name@xits@math{XITSMath-Regular}%
     }{%
-      \gdef\ustc@font@family@xits{xits}%
-      \gdef\ustc@font@style@xits@rm{regular}%
-      \gdef\ustc@font@style@xits@bf{bold}%
-      \gdef\ustc@font@style@xits@it{italic}%
-      \gdef\ustc@font@style@xits@bfit{bolditalic}%
-      \gdef\ustc@font@name@xits@math{xits-math}%
+      \gdef\szcu@font@family@xits{xits}%
+      \gdef\szcu@font@style@xits@rm{regular}%
+      \gdef\szcu@font@style@xits@bf{bold}%
+      \gdef\szcu@font@style@xits@it{italic}%
+      \gdef\szcu@font@style@xits@bfit{bolditalic}%
+      \gdef\szcu@font@name@xits@math{xits-math}%
     }%
   \fi
 }
 
-\newcommand\ustc@set@font@xits{%
-  \ustc@set@xits@names
-  \setmainfont{\ustc@font@family@xits}[
+\newcommand\szcu@set@font@xits{%
+  \szcu@set@xits@names
+  \setmainfont{\szcu@font@family@xits}[
     Extension      = .otf,
-    UprightFont    = *-\ustc@font@style@xits@rm,
-    BoldFont       = *-\ustc@font@style@xits@bf,
-    ItalicFont     = *-\ustc@font@style@xits@it,
-    BoldItalicFont = *-\ustc@font@style@xits@bfit,
+    UprightFont    = *-\szcu@font@style@xits@rm,
+    BoldFont       = *-\szcu@font@style@xits@bf,
+    ItalicFont     = *-\szcu@font@style@xits@it,
+    BoldItalicFont = *-\szcu@font@style@xits@bfit,
   ]%
-  \ustc@set@texgyre@sans@mono
+  \szcu@set@texgyre@sans@mono
 }
 
 % Libertinus 的文件名在 v6.7 2019-04-03 从小写改为驼峰式，
 % 在大小写敏感的平台上需要进行判断。
-\let\ustc@font@family@libertinus\@empty
-\newcommand\ustc@set@libertinus@names{%
-  \ifx\ustc@font@family@libertinus\@empty
+\let\szcu@font@family@libertinus\@empty
+\newcommand\szcu@set@libertinus@names{%
+  \ifx\szcu@font@family@libertinus\@empty
     \IfFontExistsTF{LibertinusSerif-Regular.otf}{%
-      \gdef\ustc@font@family@libertinus@serif{LibertinusSerif}%
-      \gdef\ustc@font@family@libertinus@sans{LibertinusSans}%
-      \gdef\ustc@font@name@libertinus@math{LibertinusMath-Regular}%
-      \gdef\ustc@font@style@libertinus@rm{Regular}%
-      \gdef\ustc@font@style@libertinus@bf{Bold}%
-      \gdef\ustc@font@style@libertinus@it{Italic}%
-      \gdef\ustc@font@style@libertinus@bfit{BoldItalic}%
+      \gdef\szcu@font@family@libertinus@serif{LibertinusSerif}%
+      \gdef\szcu@font@family@libertinus@sans{LibertinusSans}%
+      \gdef\szcu@font@name@libertinus@math{LibertinusMath-Regular}%
+      \gdef\szcu@font@style@libertinus@rm{Regular}%
+      \gdef\szcu@font@style@libertinus@bf{Bold}%
+      \gdef\szcu@font@style@libertinus@it{Italic}%
+      \gdef\szcu@font@style@libertinus@bfit{BoldItalic}%
     }{%
-      \gdef\ustc@font@family@libertinus@serif{libertinusserif}%
-      \gdef\ustc@font@family@libertinus@sans{libertinussans}%
-      \gdef\ustc@font@name@libertinus@math{libertinusmath-regular}%
-      \gdef\ustc@font@style@libertinus@rm{regular}%
-      \gdef\ustc@font@style@libertinus@bf{bold}%
-      \gdef\ustc@font@style@libertinus@it{italic}%
-      \gdef\ustc@font@style@libertinus@bfit{bolditalic}%
+      \gdef\szcu@font@family@libertinus@serif{libertinusserif}%
+      \gdef\szcu@font@family@libertinus@sans{libertinussans}%
+      \gdef\szcu@font@name@libertinus@math{libertinusmath-regular}%
+      \gdef\szcu@font@style@libertinus@rm{regular}%
+      \gdef\szcu@font@style@libertinus@bf{bold}%
+      \gdef\szcu@font@style@libertinus@it{italic}%
+      \gdef\szcu@font@style@libertinus@bfit{bolditalic}%
     }%
   \fi
 }
 
-\newcommand\ustc@set@font@libertinus{%
-  \ustc@set@libertinus@names
-  \setmainfont{\ustc@font@family@libertinus@serif}[
+\newcommand\szcu@set@font@libertinus{%
+  \szcu@set@libertinus@names
+  \setmainfont{\szcu@font@family@libertinus@serif}[
     Extension      = .otf,
-    UprightFont    = *-\ustc@font@style@libertinus@rm,
-    BoldFont       = *-\ustc@font@style@libertinus@bf,
-    ItalicFont     = *-\ustc@font@style@libertinus@it,
-    BoldItalicFont = *-\ustc@font@style@libertinus@bfit,
+    UprightFont    = *-\szcu@font@style@libertinus@rm,
+    BoldFont       = *-\szcu@font@style@libertinus@bf,
+    ItalicFont     = *-\szcu@font@style@libertinus@it,
+    BoldItalicFont = *-\szcu@font@style@libertinus@bfit,
   ]%
-  \setsansfont{\ustc@font@family@libertinus@sans}[
+  \setsansfont{\szcu@font@family@libertinus@sans}[
     Extension      = .otf,
-    UprightFont    = *-\ustc@font@style@libertinus@rm,
-    BoldFont       = *-\ustc@font@style@libertinus@bf,
-    ItalicFont     = *-\ustc@font@style@libertinus@it,
+    UprightFont    = *-\szcu@font@style@libertinus@rm,
+    BoldFont       = *-\szcu@font@style@libertinus@bf,
+    ItalicFont     = *-\szcu@font@style@libertinus@it,
   ]%
   \setmonofont{lmmonolt10}[
     Extension      = .otf,
@@ -871,7 +871,7 @@
 }
 
 % New Computer Modern
-\newcommand\ustc@set@font@newcm{%
+\newcommand\szcu@set@font@newcm{%
   \setmainfont{NewCM10}[
     Extension      = .otf,
     UprightFont    = *-Book,
@@ -896,7 +896,7 @@
 }
 
 % Latin Modern
-\newcommand\ustc@set@font@lm{%
+\newcommand\szcu@set@font@lm{%
   \setmainfont{lmroman10}[
     Extension      = .otf,
     UprightFont    = *-regular,
@@ -920,35 +920,35 @@
   ]%
 }
 
-\newcommand\ustc@set@font@newtx{%
+\newcommand\szcu@set@font@newtx{%
   \RequirePackage{newtxtext}%
 }
 
-\newcommand\ustc@set@font{%
-  \@nameuse{ustc@set@font@\ustc@font}%
+\newcommand\szcu@set@font{%
+  \@nameuse{szcu@set@font@\szcu@font}%
 }
-\ustc@set@font
-\ustc@option@hook{font}{\ustc@set@font}
+\szcu@set@font
+\szcu@option@hook{font}{\szcu@set@font}
 
 % 中文字体
-\ifustc@cjk@font@auto
-  \ifustc@fontset@mac
-    \ustcsetup{cjk-font = mac}
+\ifszcu@cjk@font@auto
+  \ifszcu@fontset@mac
+    \szcusetup{cjk-font = mac}
   \else
-    \ifustc@fontset@windows
-      \ustcsetup{cjk-font = windows}
+    \ifszcu@fontset@windows
+      \szcusetup{cjk-font = windows}
     \else
-      \ifustc@fontset@ubuntu
-        \ustcsetup{cjk-font = noto}
+      \ifszcu@fontset@ubuntu
+        \szcusetup{cjk-font = noto}
       \else
-        \ustcsetup{cjk-font = fandol}
+        \szcusetup{cjk-font = fandol}
       \fi
     \fi
   \fi
 \fi
 
 % Windows 的中易字体。
-\newcommand\ustc@set@cjk@font@windows{%
+\newcommand\szcu@set@cjk@font@windows{%
   \setCJKmainfont{SimSun}[
     AutoFakeBold = 3,
     ItalicFont   = KaiTi,
@@ -962,7 +962,7 @@
 }
 
 % macOS 的华文字体。
-\newcommand\ustc@set@cjk@font@mac{%
+\newcommand\szcu@set@cjk@font@mac{%
   \defaultCJKfontfeatures{}%
   \setCJKmainfont{Songti SC}[
     UprightFont    = * Light,
@@ -997,7 +997,7 @@
 
 % 思源字体。
 % 注意 Noto CJK 的 regular 字重名字不带“Regular”。
-\newcommand\ustc@set@cjk@font@noto{%
+\newcommand\szcu@set@cjk@font@noto{%
   \defaultCJKfontfeatures{}%
   \setCJKmainfont{Noto Serif CJK SC}[
     UprightFont    = * Light,
@@ -1033,7 +1033,7 @@
 }
 
 % Fandol 字体。
-\newcommand\ustc@set@cjk@font@fandol{%
+\newcommand\szcu@set@cjk@font@fandol{%
   \defaultCJKfontfeatures{}%
   \setCJKmainfont{FandolSong}[
     Extension   = .otf,
@@ -1071,25 +1071,25 @@
   ]%
 }
 
-\ifustc@cjk@font@none\else
+\ifszcu@cjk@font@none\else
   \providecommand\songti{\CJKfamily{zhsong}}
   \providecommand\heiti{\CJKfamily{zhhei}}
   \providecommand\fangsong{\CJKfamily{zhfs}}
   \providecommand\kaishu{\CJKfamily{zhkai}}
 \fi
 
-\newcommand\ustc@set@cjk@font{%
-  \@nameuse{ustc@set@cjk@font@\ustc@cjk@font}%
+\newcommand\szcu@set@cjk@font{%
+  \@nameuse{szcu@set@cjk@font@\szcu@cjk@font}%
 }
-\ustc@set@cjk@font
-\ustc@option@hook{cjk-font}{\ustc@set@cjk@font}
+\szcu@set@cjk@font
+\szcu@option@hook{cjk-font}{\szcu@set@cjk@font}
 
 % 数学字体
 
 % 设置数学符号风格。
-\newcommand\ustc@set@math@style{%
-  \ifustc@math@style@TeX
-    \ustcsetup{
+\newcommand\szcu@set@math@style{%
+  \ifszcu@math@style@TeX
+    \szcusetup{
       uppercase-greek    = upright,
       less-than-or-equal = horizontal,
       integral           = slanted,
@@ -1099,21 +1099,21 @@
       real-part          = fraktur,
     }%
   \else
-    \ustcsetup{
+    \szcusetup{
       uppercase-greek = italic,
       integral        = upright,
       partial         = upright,
       real-part       = roman,
     }%
-    \ifustc@math@style@ISO
-      \ustcsetup{
+    \ifszcu@math@style@ISO
+      \szcusetup{
         less-than-or-equal = horizontal,
         integral-limits    = true,
         math-ellipsis      = lower,
       }%
     \else
-      \ifustc@math@style@GB
-        \ustcsetup{
+      \ifszcu@math@style@GB
+        \szcusetup{
           less-than-or-equal = slanted,
           integral-limits    = false,
           math-ellipsis      = centered,
@@ -1123,41 +1123,41 @@
   \fi
 }
 
-\ifustc@main@language@chinese
-  \ustcsetup{math-style = GB}%
+\ifszcu@main@language@chinese
+  \szcusetup{math-style = GB}%
 \else
-  \ustcsetup{math-style = TeX}%
+  \szcusetup{math-style = TeX}%
 \fi
 
-\ustc@set@math@style
-\ustc@option@hook{math-style}{\ustc@set@math@style}
-\ustc@option@hook{main-language}{%
-  \ifustc@main@language@chinese
-    \ustcsetup{math-style = GB}%
+\szcu@set@math@style
+\szcu@option@hook{math-style}{\szcu@set@math@style}
+\szcu@option@hook{main-language}{%
+  \ifszcu@main@language@chinese
+    \szcusetup{math-style = GB}%
   \else
-    \ustcsetup{math-style = TeX}%
+    \szcusetup{math-style = TeX}%
   \fi
 }
 
 % 针对 \pkg{unicode-math} 逐项配置数学符号。
 
-\newcommand\ustc@set@unimath@leq{%
-  \ifustc@leq@horizontal
+\newcommand\szcu@set@unimath@leq{%
+  \ifszcu@leq@horizontal
     \ifx\@begindocumenthook\@undefined
-      \let\le\ustc@save@leq
-      \let\ge\ustc@save@geq
-      \let\leq\ustc@save@leq
-      \let\geq\ustc@save@geq
+      \let\le\szcu@save@leq
+      \let\ge\szcu@save@geq
+      \let\leq\szcu@save@leq
+      \let\geq\szcu@save@geq
     \else
       \AtBeginDocument{%
-        \let\le\ustc@save@leq
-        \let\ge\ustc@save@geq
-        \let\leq\ustc@save@leq
-        \let\geq\ustc@save@geq
+        \let\le\szcu@save@leq
+        \let\ge\szcu@save@geq
+        \let\leq\szcu@save@leq
+        \let\geq\szcu@save@geq
       }%
     \fi
   \else
-    \ifustc@leq@slanted
+    \ifszcu@leq@slanted
       \ifx\@begindocumenthook\@undefined
         \let\le\leqslant
         \let\ge\geqslant
@@ -1174,8 +1174,8 @@
     \fi
   \fi
 }
-\newcommand\ustc@set@unimath@integral@limits{%
-  \ifustc@integral@limits@true
+\newcommand\szcu@set@unimath@integral@limits{%
+  \ifszcu@integral@limits@true
     \removenolimits{%
       \int\iint\iiint\iiiint\oint\oiint\oiiint
       \intclockwise\varointclockwise\ointctrclockwise\sumint
@@ -1193,62 +1193,62 @@
     }%
   \fi
 }
-\newcommand\ustc@set@unimath@ellipsis{%
-  \ifustc@math@ellipsis@centered
+\newcommand\szcu@set@unimath@ellipsis{%
+  \ifszcu@math@ellipsis@centered
     \DeclareRobustCommand\mathellipsis{\mathinner{\unicodecdots}}%
   \else
     \DeclareRobustCommand\mathellipsis{\mathinner{\unicodeellipsis}}%
   \fi
 }
-\newcommand\ustc@set@unimath@real@part{%
-  \ifustc@real@part@roman
+\newcommand\szcu@set@unimath@real@part{%
+  \ifszcu@real@part@roman
     \AtBeginDocument{%
       \def\Re{\operatorname{Re}}%
       \def\Im{\operatorname{Im}}%
     }%
   \else
     \AtBeginDocument{%
-      \let\Re\ustc@save@Re
-      \let\Im\ustc@save@Im
+      \let\Re\szcu@save@Re
+      \let\Im\szcu@save@Im
     }%
   \fi
 }
 
-\newcommand\ustc@set@unimath@style{%
-  \ifustc@uppercase@greek@upright
+\newcommand\szcu@set@unimath@style{%
+  \ifszcu@uppercase@greek@upright
     \unimathsetup{math-style = TeX}%
   \else
-    \ifustc@uppercase@greek@italic
+    \ifszcu@uppercase@greek@italic
       \unimathsetup{math-style = ISO}%
     \fi
   \fi
-  \ifustc@math@style@TeX
+  \ifszcu@math@style@TeX
     \unimathsetup{bold-style = TeX}%
   \else
     \unimathsetup{bold-style = ISO}%
   \fi
-  \ustc@set@unimath@leq
-  \ustc@set@unimath@integral@limits
-  \ifustc@partial@upright
+  \szcu@set@unimath@leq
+  \szcu@set@unimath@integral@limits
+  \ifszcu@partial@upright
     \unimathsetup{partial = upright}%
   \else
-    \ifustc@partial@italic
+    \ifszcu@partial@italic
       \unimathsetup{partial = italic}%
     \fi
   \fi
-  \ustc@set@unimath@ellipsis
-  \ustc@set@unimath@real@part
+  \szcu@set@unimath@ellipsis
+  \szcu@set@unimath@real@part
 }
 
-\newcommand\ustc@qed{\rule{1ex}{1ex}}
-\newcommand\ustc@load@unimath{%
+\newcommand\szcu@qed{\rule{1ex}{1ex}}
+\newcommand\szcu@load@unimath{%
   \@ifpackageloaded{unicode-math}{}{%
     \RequirePackage{unicode-math}%
     \AtBeginDocument{%
-      \let\ustc@save@leq\leq
-      \let\ustc@save@geq\geq
-      \let\ustc@save@Re\Re
-      \let\ustc@save@Im\Im
+      \let\szcu@save@leq\leq
+      \let\szcu@save@geq\geq
+      \let\szcu@save@Re\Re
+      \let\szcu@save@Im\Im
     }%
     %
     % 兼容旧的粗体命令：\pkg{bm} 的 \cs{bm} 和 \pkg{amsmath} 的 \cs{boldsymbol}。
@@ -1263,21 +1263,21 @@
     }%
     %
     % 兼容 \pkg{amsthm} 的 \cs{qedsymbol}。
-    \renewcommand\ustc@qed{\ensuremath{\QED}}%
+    \renewcommand\szcu@qed{\ensuremath{\QED}}%
   }%
 }
 
 % STIX Two Math
-\newcommand\ustc@set@math@font@stix{%
-  \ustc@load@unimath
-  \ustc@set@unimath@style
-  \ustc@set@stix@names
-  \setmathfont{\ustc@font@name@stix@math}[
+\newcommand\szcu@set@math@font@stix{%
+  \szcu@load@unimath
+  \szcu@set@unimath@style
+  \szcu@set@stix@names
+  \setmathfont{\szcu@font@name@stix@math}[
     Extension    = .otf,
     Scale        = MatchLowercase,
-    StylisticSet = \ustc@xits@integral@stylistic@set,
+    StylisticSet = \szcu@xits@integral@stylistic@set,
   ]%
-  \setmathfont{\ustc@font@name@stix@math}[
+  \setmathfont{\szcu@font@name@stix@math}[
     Extension    = .otf,
     Scale        = MatchLowercase,
     StylisticSet = 1,
@@ -1286,20 +1286,20 @@
 }
 
 % XITS Math
-\newcommand\ustc@xits@integral@stylistic@set{%
-  \ifustc@integral@upright
+\newcommand\szcu@xits@integral@stylistic@set{%
+  \ifszcu@integral@upright
     8%
   \fi
 }
-\newcommand\ustc@set@math@font@xits{%
-  \ustc@load@unimath
-  \ustc@set@unimath@style
-  \ustc@set@xits@names
-  \setmathfont{\ustc@font@name@xits@math}[
+\newcommand\szcu@set@math@font@xits{%
+  \szcu@load@unimath
+  \szcu@set@unimath@style
+  \szcu@set@xits@names
+  \setmathfont{\szcu@font@name@xits@math}[
     Extension    = .otf,
-    StylisticSet = \ustc@xits@integral@stylistic@set,
+    StylisticSet = \szcu@xits@integral@stylistic@set,
   ]%
-  \setmathfont{\ustc@font@name@xits@math}[
+  \setmathfont{\szcu@font@name@xits@math}[
     Extension    = .otf,
     StylisticSet = 1,
     range        = {cal,bfcal},
@@ -1307,38 +1307,38 @@
 }
 
 % Libertinus Math
-\newcommand\ustc@libertinus@integral@stylistic@set{%
-  \ifustc@integral@slanted
+\newcommand\szcu@libertinus@integral@stylistic@set{%
+  \ifszcu@integral@slanted
     8%
   \fi
 }
-\newcommand\ustc@set@math@font@libertinus{%
-  \ustc@load@unimath
-  \ustc@set@unimath@style
-  \ustc@set@libertinus@names
-  \ustc@set@xits@names
-  \setmathfont{\ustc@font@name@libertinus@math}[
+\newcommand\szcu@set@math@font@libertinus{%
+  \szcu@load@unimath
+  \szcu@set@unimath@style
+  \szcu@set@libertinus@names
+  \szcu@set@xits@names
+  \setmathfont{\szcu@font@name@libertinus@math}[
     Extension    = .otf,
-    StylisticSet = \ustc@libertinus@integral@stylistic@set,
+    StylisticSet = \szcu@libertinus@integral@stylistic@set,
   ]%
-  \setmathfont{\ustc@font@name@xits@math}[
+  \setmathfont{\szcu@font@name@xits@math}[
     Extension    = .otf,
     range        = {\checkmark},
   ]%
 }
 
 % New Computer Modern Math
-\newcommand\ustc@newcm@integral@stylistic@set{%
-  \ifustc@integral@upright
+\newcommand\szcu@newcm@integral@stylistic@set{%
+  \ifszcu@integral@upright
     2%
   \fi
 }
-\newcommand\ustc@set@math@font@newcm{%
-  \ustc@load@unimath
-  \ustc@set@unimath@style
+\newcommand\szcu@set@math@font@newcm{%
+  \szcu@load@unimath
+  \szcu@set@unimath@style
   \setmathfont{NewCMMath-Book}[
     Extension    = .otf,
-    StylisticSet = \ustc@newcm@integral@stylistic@set,
+    StylisticSet = \szcu@newcm@integral@stylistic@set,
   ]%
   \setmathfont{NewCMMath-Book}[
     Extension    = .otf,
@@ -1369,9 +1369,9 @@
 }
 
 % Latin Modern Math
-\newcommand\ustc@set@math@font@lm{%
-  \ustc@load@unimath
-  \ustc@set@unimath@style
+\newcommand\szcu@set@math@font@lm{%
+  \szcu@load@unimath
+  \szcu@set@unimath@style
   \setmathfont{latinmodern-math}[Extension=.otf]%
   \setmathrm{lmroman10}[
     Extension      = .otf,
@@ -1398,87 +1398,87 @@
 
 % NewTX Math
 % 注意 NewTX Math 是 Type 1 字体，如果正文西文使用了 OpenType 字体时需要小心处理。
-\newcommand\ustc@set@math@font@newtx{%
-  \ifustc@font@newtx\else
-    \let\ustc@save@encodingdefault\encodingdefault
-    \let\ustc@save@rmdefault\rmdefault
-    \let\ustc@save@sfdefault\sfdefault
-    \let\ustc@save@ttdefault\ttdefault
+\newcommand\szcu@set@math@font@newtx{%
+  \ifszcu@font@newtx\else
+    \let\szcu@save@encodingdefault\encodingdefault
+    \let\szcu@save@rmdefault\rmdefault
+    \let\szcu@save@sfdefault\sfdefault
+    \let\szcu@save@ttdefault\ttdefault
     \RequirePackage[T1]{fontenc}%
     \renewcommand{\rmdefault}{ntxtlf}%
     \renewcommand{\sfdefault}{qhv}%
     \renewcommand{\ttdefault}{ntxtt}%
   \fi
-  \ifustc@uppercase@greek@italic
+  \ifszcu@uppercase@greek@italic
     \PassOptionsToPackage{slantedGreek}{newtxmath}%
   \fi
-  \ifustc@integral@upright
+  \ifszcu@integral@upright
     \PassOptionsToPackage{upint}{newtxmath}%
   \fi
   \RequirePackage{newtxmath}
-  \let\ustc@save@leq\leq
-  \let\ustc@save@geq\geq
-  \ifustc@leq@slanted
+  \let\szcu@save@leq\leq
+  \let\szcu@save@geq\geq
+  \ifszcu@leq@slanted
     \let\le\leqslant
     \let\ge\geqslant
     \let\leq\leqslant
     \let\geq\geqslant
   \fi
-  \ifustc@integral@limits@true
+  \ifszcu@integral@limits@true
     \let\ilimits@\displaylimits
   \fi
-  \let\ustc@save@partial\partial
-  \ifustc@partial@upright
+  \let\szcu@save@partial\partial
+  \ifszcu@partial@upright
     \let\partial\uppartial
   \fi
-  \ifustc@math@ellipsis@centered
+  \ifszcu@math@ellipsis@centered
     \DeclareRobustCommand\mathellipsis{\mathinner{\cdotp\cdotp\cdotp}}%
   \else
     \DeclareRobustCommand\mathellipsis{\mathinner{\ldotp\ldotp\ldotp}}%
   \fi
-  \let\ustc@save@Re\Re
-  \let\ustc@save@Im\Im
-  \ifustc@real@part@roman
+  \let\szcu@save@Re\Re
+  \let\szcu@save@Im\Im
+  \ifszcu@real@part@roman
     \def\Re{\operatorname{Re}}%
     \def\Im{\operatorname{Im}}%
   \fi
   \RequirePackage{bm}%
-  \ifustc@font@newtx\else
-    \let\encodingdefault\ustc@save@encodingdefault
-    \let\rmdefault\ustc@save@rmdefault
-    \let\sfdefault\ustc@save@sfdefault
-    \let\ttdefault\ustc@save@ttdefault
+  \ifszcu@font@newtx\else
+    \let\encodingdefault\szcu@save@encodingdefault
+    \let\rmdefault\szcu@save@rmdefault
+    \let\sfdefault\szcu@save@sfdefault
+    \let\ttdefault\szcu@save@ttdefault
   \fi
   \DeclareRobustCommand\symup[1]{{\mathrm{##1}}}%
   \DeclareRobustCommand\symbf[1]{{\bm{##1}}}%
   \DeclareRobustCommand\symbfsf[1]{{\bm{##1}}}%
   \let\increment\upDelta%
-  \renewcommand\ustc@qed{\openbox}%
+  \renewcommand\szcu@qed{\openbox}%
 }
 
 % Computer Modern
 % 使用 LaTeX 默认的 cm 字体
-\newcommand\ustc@set@math@font@cm{%
+\newcommand\szcu@set@math@font@cm{%
   \RequirePackage{amssymb}
-  \let\ustc@save@leq\leq
-  \let\ustc@save@geq\geq
-  \ifustc@leq@slanted
+  \let\szcu@save@leq\leq
+  \let\szcu@save@geq\geq
+  \ifszcu@leq@slanted
     \let\le\leqslant
     \let\ge\geqslant
     \let\leq\leqslant
     \let\geq\geqslant
   \fi
-  \ifustc@integral@limits@true
+  \ifszcu@integral@limits@true
     \let\ilimits@\displaylimits
   \fi
-  \ifustc@math@ellipsis@centered
+  \ifszcu@math@ellipsis@centered
     \DeclareRobustCommand\mathellipsis{\mathinner{\cdotp\cdotp\cdotp}}%
   \else
     \DeclareRobustCommand\mathellipsis{\mathinner{\ldotp\ldotp\ldotp}}%
   \fi
-  \let\ustc@save@Re\Re
-  \let\ustc@save@Im\Im
-  \ifustc@real@part@roman
+  \let\szcu@save@Re\Re
+  \let\szcu@save@Im\Im
+  \ifszcu@real@part@roman
     \def\Re{\operatorname{Re}}%
     \def\Im{\operatorname{Im}}%
   \fi
@@ -1487,34 +1487,34 @@
   \DeclareRobustCommand\symbf[1]{{\bm{##1}}}%
   \DeclareRobustCommand\symbfsf[1]{{\bm{##1}}}%
   \let\increment\Delta
-  \renewcommand\ustc@qed{\openbox}%
+  \renewcommand\szcu@qed{\openbox}%
   \let\uppi\pi
 }
 
 % 不设置数学字体，仅提供兼容支持。
-\newcommand\ustc@set@math@font@none{%
+\newcommand\szcu@set@math@font@none{%
   \RequirePackage{amssymb}
   \RequirePackage{bm}%
   \DeclareRobustCommand\symup[1]{{\mathrm{##1}}}%
   \DeclareRobustCommand\symbf[1]{{\bm{##1}}}%
   \DeclareRobustCommand\symbfsf[1]{{\bm{##1}}}%
   \let\increment\Delta
-  \renewcommand\ustc@qed{\openbox}%
+  \renewcommand\szcu@qed{\openbox}%
   \let\uppi\pi
 }
 
-\newcommand\ustc@set@math@font{%
-  \@nameuse{ustc@set@math@font@\ustc@math@font}%
+\newcommand\szcu@set@math@font{%
+  \@nameuse{szcu@set@math@font@\szcu@math@font}%
 }
-\ustc@option@hook{math-font}{\g@addto@macro\ustc@setup@hook{\ustc@set@math@font}}
-\newcommand\ustc@set@math@font@auto{%
-  \ifustc@math@font@auto
-    \ustcsetup{math-font=xits}%
+\szcu@option@hook{math-font}{\g@addto@macro\szcu@setup@hook{\szcu@set@math@font}}
+\newcommand\szcu@set@math@font@auto{%
+  \ifszcu@math@font@auto
+    \szcusetup{math-font=xits}%
   \fi
 }
-\AtBeginOfPackageFile*{siunitx}{\ustc@set@math@font@auto}
+\AtBeginOfPackageFile*{siunitx}{\szcu@set@math@font@auto}
 \AtEndPreamble{%
-  \ustc@set@math@font@auto
+  \szcu@set@math@font@auto
   \ifx\square\@undefined
     \RequirePackage{amssymb}%
   \fi
@@ -1553,13 +1553,13 @@
   %
   % 页眉与该部分的章标题相同，宋体 10.5 磅（五号）居中。
   % 页码：宋体 10.5 磅、页面下脚居中。
-  \ifustc@degree@graduate
-    \def\ustc@hf@font{\fontsize{10.5bp}{12bp}\selectfont}
-    \fancyhead[C]{\ustc@hf@font\leftmark}%
-    \fancyfoot[C]{\ustc@hf@font\thepage}%
+  \ifszcu@degree@graduate
+    \def\szcu@hf@font{\fontsize{10.5bp}{12bp}\selectfont}
+    \fancyhead[C]{\szcu@hf@font\leftmark}%
+    \fancyfoot[C]{\szcu@hf@font\thepage}%
     \let\@mkboth\markboth
     \def\chaptermark##1{%
-      \markboth{\CTEXifname{\CTEXthechapter\quad}{}\ustc@spacetitle{##1}}{}%
+      \markboth{\CTEXifname{\CTEXthechapter\quad}{}\szcu@spacetitle{##1}}{}%
     }%
     \let\sectionmark\@gobble
   \else
@@ -1567,9 +1567,9 @@
     % 本科生要求除封面、扉页外，每面上部加页眉，
     % 用小 5 号字（9 bp）标注“中国科学技术大学本科毕业论文”，居中；
     % 从目录页开始在每面底部居中用小五宋体（9 bp）连续编页码。
-    \def\ustc@hf@font{\fontsize{9bp}{12bp}\selectfont}
-    \fancyhead[C]{\ustc@hf@font 中国科学技术大学本科毕业论文}%
-    \fancyfoot[C]{\ustc@hf@font\thepage}%
+    \def\szcu@hf@font{\fontsize{9bp}{12bp}\selectfont}
+    \fancyhead[C]{\szcu@hf@font 中国科学技术大学本科毕业论文}%
+    \fancyfoot[C]{\szcu@hf@font\thepage}%
     \let\@mkboth\@gobbletwo
     \let\chaptermark\@gobble
     \let\sectionmark\@gobble
@@ -1607,7 +1607,7 @@
   \cleardoublepage
   \@mainmatterfalse
   \pagenumbering{Roman}%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \pagestyle{plain}%
   \else
     \pagestyle{headings}%
@@ -1616,7 +1616,7 @@
 
 % 研究生要求“第 1 章”要另页起，但是本科生要求另面起。
 \renewcommand\mainmatter{%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \cleardoublepage
     \pagenumbering{arabic}%
   \else
@@ -1633,7 +1633,7 @@
 
 
 % 定义用户接口：
-\ustc@define@key{
+\szcu@define@key{
   title = {
     default = {论文题目},
   },
@@ -1700,139 +1700,139 @@
 % 导师一栏可能有多个姓名，所以用 \opt{supervisor} 进行收集，
 % 然后使用本命令来输出要求的格式，
 % 类似于 \LaTeX3 的 \cs{clist\_use:Nn}。
-\newcommand\ustc@clist@count[1]{%
+\newcommand\szcu@clist@count[1]{%
   \csname clist_count:N\endcsname{#1}%
 }
-\newcommand\ustc@clist@use[2]{%
+\newcommand\szcu@clist@use[2]{%
   \csname clist_use:Nn\endcsname{#1}{#2}%
 }
-\newcommand\ustc@supervisor@names{%
-  \ustc@clist@use{\ustc@supervisor}{\quad}
+\newcommand\szcu@supervisor@names{%
+  \szcu@clist@use{\szcu@supervisor}{\quad}
 }
-\newcommand\ustc@advisor@names{%
-  \ustc@clist@use{\ustc@advisor}{\quad}
+\newcommand\szcu@advisor@names{%
+  \szcu@clist@use{\szcu@advisor}{\quad}
 }
-\newcounter{ustc@count}
-\newcommand\ustc@supervisor@en@line{%
-  \setcounter{ustc@count}{\ustc@clist@count{\ustc@supervisor@en}}%
-  \ifnum\c@ustc@count>1\relax
+\newcounter{szcu@count}
+\newcommand\szcu@supervisor@en@line{%
+  \setcounter{szcu@count}{\szcu@clist@count{\szcu@supervisor@en}}%
+  \ifnum\c@szcu@count>1\relax
     Supervisors:%
   \else
     Supervisor:%
   \fi
-  \space\ustc@clist@use{\ustc@supervisor@en}{, }%
+  \space\szcu@clist@use{\szcu@supervisor@en}{, }%
 }
-\newcommand\ustc@advisor@en@line{%
-  \setcounter{ustc@count}{\ustc@clist@count{\ustc@advisor@en}}%
-  \ifnum\c@ustc@count>1\relax
+\newcommand\szcu@advisor@en@line{%
+  \setcounter{szcu@count}{\szcu@clist@count{\szcu@advisor@en}}%
+  \ifnum\c@szcu@count>1\relax
     Advisor:%
   \else
     Advisor:%
   \fi
-  \space\ustc@clist@use{\ustc@advisor@en}{, }%
+  \space\szcu@clist@use{\szcu@advisor@en}{, }%
 }
 
-% 输出日期的给定格式：\cs{ustc@format@date}\marg{format}\marg{date}，
+% 输出日期的给定格式：\cs{szcu@format@date}\marg{format}\marg{date}，
 % 其中格式 \meta{format} 接受三个参数分别对应年、月、日，
 % \meta{date} 是 ISO 格式的日期（yyyy-mm-dd）。
-\newcommand\ustc@format@date[2]{%
-  \edef\ustc@@date{#2}%
-  \def\ustc@@process@date##1-##2-##3\@nil{%
+\newcommand\szcu@format@date[2]{%
+  \edef\szcu@@date{#2}%
+  \def\szcu@@process@date##1-##2-##3\@nil{%
     #1{##1}{##2}{##3}%
   }%
-  \expandafter\ustc@@process@date\ustc@@date\@nil
+  \expandafter\szcu@@process@date\szcu@@date\@nil
 }
-\newcommand\ustc@date@format@zh@small[3]{\number#1 年 \number#2 月 \number#3 日}
-\newcommand\ustc@date@format@zh@big[3]{\zhdigits{#1}年\zhnumber{#2}月\zhnumber{#3}日}
-\newcommand\ustc@date@month[1]{%
+\newcommand\szcu@date@format@zh@small[3]{\number#1 年 \number#2 月 \number#3 日}
+\newcommand\szcu@date@format@zh@big[3]{\zhdigits{#1}年\zhnumber{#2}月\zhnumber{#3}日}
+\newcommand\szcu@date@month[1]{%
   \ifcase\number#1\or
     January\or February\or March\or April\or May\or June\or
     July\or August\or September\or October\or November\or December%
   \fi
 }
-\newcommand\ustc@date@format@zh@short[3]{\number#1 年 \number#2 月}
-\newcommand\ustc@date@format@en[3]{\ustc@date@month{#2} \number#3, #1}
-\newcommand\ustc@date@zh@small{\ustc@format@date{\ustc@date@format@zh@small}{\ustc@date}}
-\newcommand\ustc@date@zh@big{\ustc@format@date{\ustc@date@format@zh@big}{\ustc@date}}
-\newcommand\ustc@date@zh@short{\ustc@format@date{\ustc@date@format@zh@short}{\ustc@date}}
-\newcommand\ustc@date@en{\ustc@format@date{\ustc@date@format@en}{\ustc@date}}
+\newcommand\szcu@date@format@zh@short[3]{\number#1 年 \number#2 月}
+\newcommand\szcu@date@format@en[3]{\szcu@date@month{#2} \number#3, #1}
+\newcommand\szcu@date@zh@small{\szcu@format@date{\szcu@date@format@zh@small}{\szcu@date}}
+\newcommand\szcu@date@zh@big{\szcu@format@date{\szcu@date@format@zh@big}{\szcu@date}}
+\newcommand\szcu@date@zh@short{\szcu@format@date{\szcu@date@format@zh@short}{\szcu@date}}
+\newcommand\szcu@date@en{\szcu@format@date{\szcu@date@format@en}{\szcu@date}}
 
-% 版本 v3.2 开始使用 \cs{ustcsetup} 设置接口，
+% 版本 v3.2 开始使用 \cs{szcusetup} 设置接口，
 % 兼容旧版本的命令式设置。
 % Reserved for compatibility until 2020-07-01.
-\def\ustc@define@term#1#2{%
+\def\szcu@define@term#1#2{%
   \expandafter\gdef\csname #1\endcsname##1{%
-    \ustcsetup{#2 = {##1}}%
+    \szcusetup{#2 = {##1}}%
   }%
 }
-\ustc@define@term{title}{title}
-\ustc@define@term{entitle}{title*}
-\ustc@define@term{author}{author}
-\ustc@define@term{enauthor}{author*}
-\ustc@define@term{major}{speciality}
-\ustc@define@term{enmajor}{speciality*}
-\ustc@define@term{supervisor}{supervisor}
-\ustc@define@term{ensupervisor}{supervisor*}
+\szcu@define@term{title}{title}
+\szcu@define@term{entitle}{title*}
+\szcu@define@term{author}{author}
+\szcu@define@term{enauthor}{author*}
+\szcu@define@term{major}{speciality}
+\szcu@define@term{enmajor}{speciality*}
+\szcu@define@term{supervisor}{supervisor}
+\szcu@define@term{ensupervisor}{supervisor*}
 \gdef\cosupervisor#1{%
-  \g@addto@macro\ustc@supervisor{, #1}%
+  \g@addto@macro\szcu@supervisor{, #1}%
 }
 \gdef\encosupervisor#1{%
-  \g@addto@macro\ustc@supervisor@en{, #1}%
+  \g@addto@macro\szcu@supervisor@en{, #1}%
 }
-\gdef\date#1{\renewcommand\ustc@date@zh@big{#1}}
-\gdef\endate#1{\renewcommand\ustc@date@en{#1}}
-\ustc@define@term{professionaltype}{professional-type}
-\ustc@define@term{enprofessionaltype}{professional-type*}
-\ustc@define@term{secretlevel}{secret-level}
-\ustc@define@term{ensecretlevel}{secret-level*}
-\ustc@define@term{secretyear}{secret-year}
-\gdef\keywords#1{\renewcommand\ustc@keywords@text{#1}}
-\gdef\enkeywords#1{\renewcommand\ustc@keywords@en@text{#1}}
+\gdef\date#1{\renewcommand\szcu@date@zh@big{#1}}
+\gdef\endate#1{\renewcommand\szcu@date@en{#1}}
+\szcu@define@term{professionaltype}{professional-type}
+\szcu@define@term{enprofessionaltype}{professional-type*}
+\szcu@define@term{secretlevel}{secret-level}
+\szcu@define@term{ensecretlevel}{secret-level*}
+\szcu@define@term{secretyear}{secret-year}
+\gdef\keywords#1{\renewcommand\szcu@keywords@text{#1}}
+\gdef\enkeywords#1{\renewcommand\szcu@keywords@en@text{#1}}
 
 % 定义一些常量。
-\ifustc@degree@doctor
-  \newcommand\ustc@thesis@name{博士学位论文}
-  \newcommand\ustc@thesis@name@en{A dissertation for doctor's degree}
+\ifszcu@degree@doctor
+  \newcommand\szcu@thesis@name{博士学位论文}
+  \newcommand\szcu@thesis@name@en{A dissertation for doctor's degree}
 \else
-  \ifustc@degree@master
-    \newcommand\ustc@thesis@name{硕士学位论文}
-    \newcommand\ustc@thesis@name@en{A dissertation for master's degree}
+  \ifszcu@degree@master
+    \newcommand\szcu@thesis@name{硕士学位论文}
+    \newcommand\szcu@thesis@name@en{A dissertation for master's degree}
   \else
-    \newcommand\ustc@thesis@name{学士学位论文}
-    \newcommand\ustc@thesis@name@en{A dissertation for bachelor's degree}
+    \newcommand\szcu@thesis@name{学士学位论文}
+    \newcommand\szcu@thesis@name@en{A dissertation for bachelor's degree}
   \fi
 \fi
-\ifustc@degree@type@academic
-  \newcommand\ustc@speciality@name{学科专业}
+\ifszcu@degree@type@academic
+  \newcommand\szcu@speciality@name{学科专业}
 \else
-  \ifustc@degree@doctor
-    \renewcommand\ustc@thesis@name{专业博士学位论文}
+  \ifszcu@degree@doctor
+    \renewcommand\szcu@thesis@name{专业博士学位论文}
   \else
-    \renewcommand\ustc@thesis@name{专业硕士学位论文}
+    \renewcommand\szcu@thesis@name{专业硕士学位论文}
   \fi
-  \ifustc@cjk@font@mac
+  \ifszcu@cjk@font@mac
     \providecommand\lishu{\CJKfamily{zhli}}
   \else
-    \ifustc@cjk@font@windows
+    \ifszcu@cjk@font@windows
       \setCJKfamilyfont{zhli}{LiSu}
       \providecommand\lishu{\CJKfamily{zhli}}
     \else
-      \ustc@warning{LiShu font is required}
+      \szcu@warning{LiShu font is required}
       \providecommand\lishu{\sffamily}
     \fi
   \fi
-  \newcommand\ustc@speciality@name{专业领域}
+  \newcommand\szcu@speciality@name{专业领域}
 \fi
 
 % 定义校徽颜色
 %
 % 推迟定义颜色以避免调用 \pkg{xcolor} 时的警告
 \AtBeginDocument{
-  \definecolor{ustcblue}{cmyk}{1,0.8,0,0}
+  \definecolor{szcublue}{cmyk}{1,0.8,0,0}
 }
 
 % 添加 PDF 书签，在 \pkg{hyperref} 载入后才有效。
-\newcommand\ustc@pdfbookmark{\@gobble}
+\newcommand\szcu@pdfbookmark{\@gobble}
 
 % 重定义 \env{titlepage} 环境，不修改页码。
 \renewenvironment{titlepage}{%
@@ -1854,123 +1854,123 @@
 % 作者姓名宋体 16 磅，单倍行距；
 % 注意这里的“单倍行距”的地方开启了“对齐到网格”，所以实际行距有所偏差，
 % 所以只能使用直尺测量。
-\newcommand\ustc@speciality@sse{软件工程}
-\newcommand\ustc@title@page@graduate@zh{%
-  \ustcsetup{language=chinese}%
+\newcommand\szcu@speciality@sse{软件工程}
+\newcommand\szcu@title@page@graduate@zh{%
+  \szcusetup{language=chinese}%
   \begin{titlepage}%
-    \ustc@pdfbookmark{封面}%
+    \szcu@pdfbookmark{封面}%
     \centering
     \parbox[t][0.6cm][t]{\textwidth}{%
       \raggedleft\fangsong\fontsize{14bp}{14bp}\selectfont
-      \null\ustc@secret@level\par}\par
+      \null\szcu@secret@level\par}\par
     \vskip 0.5cm%
-    \includegraphics[height=1.3cm]{figures/ustc-name.pdf}\par
+    \includegraphics[height=1.3cm]{figures/szcu-name.pdf}\par
     \vskip 0.6cm%
     {\sffamily\fontsize{56bp}{56bp}\selectfont
-      \ustc@thesis@name\par}%
-    \ifustc@degree@type@academic
+      \szcu@thesis@name\par}%
+    \ifszcu@degree@type@academic
       \vskip 2.0cm%
     \else
       \vskip 0.8cm%
       \begingroup
         \fontsize{26bp}{26bp}\selectfont
-        \ifx\ustc@professional@type\@empty
+        \ifx\szcu@professional@type\@empty
           \null
         \else
-          \lishu （\ustc@professional@type ）%
+          \lishu （\szcu@professional@type ）%
         \fi
         \par
       \endgroup
       \vskip 1.0cm%
     \fi
-    \ifustc@badge@color@blue
-      \textcolor{ustcblue}{%
-        \includegraphics[height=4.1cm]{figures/ustc-badge.pdf}}%
+    \ifszcu@badge@color@blue
+      \textcolor{szcublue}{%
+        \includegraphics[height=4.1cm]{figures/szcu-badge.pdf}}%
     \else
-      \includegraphics[height=4.1cm]{figures/ustc-badge.pdf}%
+      \includegraphics[height=4.1cm]{figures/szcu-badge.pdf}%
     \fi\par
     \vskip 0.9cm%
     \parbox[t][3.5cm][c]{\textwidth}{%
       \centering\sffamily\bfseries\fontsize{26bp}{50bp}\selectfont
-      \ustc@title\par}\par
+      \szcu@title\par}\par
     \vskip 0.6cm%
     {\fontsize{16bp}{31bp}\selectfont
       \begin{tabular}{@{}l@{\hspace{\ccwd}}l@{}}%
-        \textsf{作者姓名：} & \ustc@author \\
-        \textsf{\ustc@speciality@name：} & \ustc@speciality \\
-        \ifx\ustc@advisor\@empty
-          \textsf{导师姓名：} & \ustc@supervisor@names \\
+        \textsf{作者姓名：} & \szcu@author \\
+        \textsf{\szcu@speciality@name：} & \szcu@speciality \\
+        \ifx\szcu@advisor\@empty
+          \textsf{导师姓名：} & \szcu@supervisor@names \\
         \else
-          \textsf{校内导师：} & \ustc@supervisor@names \\
-          \textsf{企业导师：} & \ustc@advisor@names \\
+          \textsf{校内导师：} & \szcu@supervisor@names \\
+          \textsf{企业导师：} & \szcu@advisor@names \\
         \fi
-        \textsf{完成时间：} & \ustc@date@zh@big
+        \textsf{完成时间：} & \szcu@date@zh@big
       \end{tabular}\par}%
   \end{titlepage}%
-  \ustc@reset@main@language
+  \szcu@reset@main@language
 }
 
 % 英文封面
-\newcommand\ustc@title@page@graduate@en{%
-  \ustcsetup{language=english}%
+\newcommand\szcu@title@page@graduate@en{%
+  \szcusetup{language=english}%
   \begin{titlepage}%
-    \ustc@pdfbookmark{Title page}%
+    \szcu@pdfbookmark{Title page}%
     \centering
     \parbox[t][0.4cm][t]{\textwidth}{%
       \raggedleft\fontsize{14bp}{14bp}\selectfont
-      \null\ustc@secret@level@en\par}\par
+      \null\szcu@secret@level@en\par}\par
     \vskip 0.5cm%
     {\sffamily\fontsize{20bp}{30bp}\selectfont
       University of Science and Technology of China\par}%
     {\sffamily\fontsize{26bp}{30bp}\selectfont
-      \ustc@thesis@name@en\par}%
-    \ifustc@degree@type@academic\else
+      \szcu@thesis@name@en\par}%
+    \ifszcu@degree@type@academic\else
       \begingroup
         \fontsize{16bp}{32bp}\selectfont
-        \ifx\ustc@professional@type@en\@empty
+        \ifx\szcu@professional@type@en\@empty
           \null
         \else
-          (\ustc@professional@type@en)
+          (\szcu@professional@type@en)
         \fi
         \par
       \endgroup
     \fi
     \vskip 2.5cm%
-    \ifustc@badge@color@blue
-      \textcolor{ustcblue}{%
-        \includegraphics[height=4.5cm]{figures/ustc-badge.pdf}}%
+    \ifszcu@badge@color@blue
+      \textcolor{szcublue}{%
+        \includegraphics[height=4.5cm]{figures/szcu-badge.pdf}}%
     \else
-      \includegraphics[height=4.5cm]{figures/ustc-badge.pdf}%
+      \includegraphics[height=4.5cm]{figures/szcu-badge.pdf}%
     \fi\par
     \vskip 0.5cm%
     \parbox[t][4.5cm][c]{\textwidth}{%
       \centering\sffamily\bfseries\fontsize{26bp}{30bp}\selectfont
-      \ustc@title@en\par}\par
+      \szcu@title@en\par}\par
     \vskip 1.6cm%
     {\fontsize{16bp}{30bp}\selectfont
       \begin{tabular}{@{}l@{}}%
-        Author:        \ustc@author@en \\
-        Speciality:    \ustc@speciality@en \\
-        \ustc@supervisor@en@line \\
-        \ifx\ustc@advisor\@empty
+        Author:        \szcu@author@en \\
+        Speciality:    \szcu@speciality@en \\
+        \szcu@supervisor@en@line \\
+        \ifx\szcu@advisor\@empty
         \else
-          \ustc@advisor@en@line \\
+          \szcu@advisor@en@line \\
         \fi
-        Finished time: \ustc@date@en
+        Finished time: \szcu@date@en
       \end{tabular}\par}%
   \end{titlepage}%
-  \ustc@reset@main@language
+  \szcu@reset@main@language
 }
 
-\newbox\ustc@title@box
+\newbox\szcu@title@box
 
 % 本科生的外封
-\newcommand\ustc@cover{%
+\newcommand\szcu@cover{%
   \begin{titlepage}%
-    \ustc@pdfbookmark{Cover}%
+    \szcu@pdfbookmark{Cover}%
     \centering
     \vspace*{0.8cm}%
-    \includegraphics{figures/ustc-title-page-heading.pdf}%
+    \includegraphics{figures/szcu-title-page-heading.pdf}%
     \vskip 4.3cm%
     \begingroup
       \bfseries\fontsize{15bp}{16bp}\selectfont
@@ -1980,14 +1980,14 @@
         题\quad 目 &
           \multicolumn{3}{c}{%
             \multirow[t]{2}{325bp}{%
-              \savebox\ustc@title@box{%
+              \savebox\szcu@title@box{%
                 \parbox[t]{325bp}{%
                   \centering\fontsize{15bp}{40bp}\selectfont
-                  \ustc@title
+                  \szcu@title
                 }%
               }%
-              \dp\ustc@title@box=0pt\relax
-              \usebox\ustc@title@box
+              \dp\szcu@title@box=0pt\relax
+              \usebox\szcu@title@box
             }%
           } \\
         \cline{2-4}%
@@ -1998,14 +1998,14 @@
         英\quad 文 &
           \multicolumn{3}{c}{%
             \multirow[t]{3}{325bp}{%
-              \savebox\ustc@title@box{%
+              \savebox\szcu@title@box{%
                 \parbox[t]{325bp}{%
                   \centering\fontsize{15bp}{40bp}\selectfont
-                  \ustc@title@en
+                  \szcu@title@en
                 }%
               }%
-              \dp\ustc@title@box=0pt\relax
-              \usebox\ustc@title@box
+              \dp\szcu@title@box=0pt\relax
+              \usebox\szcu@title@box
             }%
           } \\
         \cline{2-4}%
@@ -2016,18 +2016,18 @@
         & & & \\
         \cline{2-4}%
         \noalign{\vskip 24bp}%
-        院\quad 系 & \multicolumn{3}{c}{\ustc@department} \\
+        院\quad 系 & \multicolumn{3}{c}{\szcu@department} \\
         \cline{2-4}%
         \noalign{\vskip 24bp}%
-        姓\quad 名 & \multicolumn{1}{c}{\ustc@author} &
-        学\quad 号 & \multicolumn{1}{c}{\ustc@student@id} \\
+        姓\quad 名 & \multicolumn{1}{c}{\szcu@author} &
+        学\quad 号 & \multicolumn{1}{c}{\szcu@student@id} \\
         \cline{2-2}%
         \cline{4-4}%
         \noalign{\vskip 24bp}%
-        导\quad 师 & \multicolumn{3}{c}{\ustc@supervisor@names} \\
+        导\quad 师 & \multicolumn{3}{c}{\szcu@supervisor@names} \\
         \cline{2-4}%
         \noalign{\vskip 24bp}%
-        日\quad 期 & \multicolumn{3}{c}{\ustc@date@zh@small} \\
+        日\quad 期 & \multicolumn{3}{c}{\szcu@date@zh@small} \\
         \cline{2-4}%
       \end{tabular}%
     \endgroup
@@ -2035,13 +2035,13 @@
 }
 
 % 本科生的扉页（内封）
-\newcommand\ustc@title@page@bachelor{%
+\newcommand\szcu@title@page@bachelor{%
   \begin{titlepage}%
-    \ustc@pdfbookmark{Title page}%
+    \szcu@pdfbookmark{Title page}%
     \centering
     % \vspace*{68bp}%
     \vspace*{29.5bp}%
-    \includegraphics{figures/ustc-name-stxingkai.pdf}\par
+    \includegraphics{figures/szcu-name-stxingkai.pdf}\par
     \vspace{0.8bp}%
     \begingroup
       \sffamily\fontsize{56bp}{72.8bp}\selectfont
@@ -2049,51 +2049,51 @@
       本科毕业论文\par
     \endgroup
     \vspace{52bp}%
-    \ifustc@badge@color@blue
-      \textcolor{ustcblue}{%
-        \includegraphics[height=126bp]{figures/ustc-badge.pdf}}%
+    \ifszcu@badge@color@blue
+      \textcolor{szcublue}{%
+        \includegraphics[height=126bp]{figures/szcu-badge.pdf}}%
     \else
-      \includegraphics[height=4.1cm]{figures/ustc-badge.pdf}%
+      \includegraphics[height=4.1cm]{figures/szcu-badge.pdf}%
     \fi\par
     \vspace{43bp}%
     \parbox[t][115bp][t]{\textwidth}{%
       \centering\sffamily\bfseries\fontsize{26bp}{46.8bp}\selectfont
-      \ustc@title\par
+      \szcu@title\par
     }\par
     \begingroup
       \hspace{10bp}%
       \heiti\fontsize{16bp}{31.7bp}\selectfont
       \setlength\tabcolsep{0bp}%
       \setlength\arrayrulewidth{0.5pt}%
-      \setlength\ustc@title@page@item@width{238bp}%
+      \setlength\szcu@title@page@item@width{238bp}%
       \begin{tabular}{p{90bp}c}%
-        作者姓名： & \makebox[238bp]{\ustc@author} \\
+        作者姓名： & \makebox[238bp]{\szcu@author} \\
         \cline{2-2}%
-        学\quad\quad 号： & \makebox[238bp]{\ustc@student@id} \\
+        学\quad\quad 号： & \makebox[238bp]{\szcu@student@id} \\
         \cline{2-2}%
-        专\quad\quad 业： & \makebox[238bp]{\ustc@speciality} \\
+        专\quad\quad 业： & \makebox[238bp]{\szcu@speciality} \\
         \cline{2-2}%
-        导师姓名： & \makebox[238bp]{\ustc@supervisor@names} \\
+        导师姓名： & \makebox[238bp]{\szcu@supervisor@names} \\
         \cline{2-2}%
-        完成时间： & \makebox[238bp]{\ustc@date@zh@small} \\
+        完成时间： & \makebox[238bp]{\szcu@date@zh@small} \\
         \cline{2-2}%
       \end{tabular}\par
     \endgroup
   \end{titlepage}%
 }
-\newlength\ustc@title@page@item@width
+\newlength\szcu@title@page@item@width
 
-% 重新定义 \cs{maketitle}，调用 \cs{ustc@makezhtitle}, \cs{ustc@makeentitle}
+% 重新定义 \cs{maketitle}，调用 \cs{szcu@makezhtitle}, \cs{szcu@makeentitle}
 % 分别生成中、英文封面。
 \renewcommand\maketitle{%
   \newgeometry{margin=2.54cm}%
   \pagenumbering{Alph}%
   \pagestyle{empty}%
-  \ifustc@degree@graduate
-    \ustc@title@page@graduate@zh
-    \ustc@title@page@graduate@en
+  \ifszcu@degree@graduate
+    \szcu@title@page@graduate@zh
+    \szcu@title@page@graduate@en
   \else
-    \ustc@title@page@bachelor
+    \szcu@title@page@bachelor
   \fi
   \cleardoublepage
   \restoregeometry
@@ -2104,12 +2104,12 @@
 % \subsection{原创性声明}
 
 % 定义原创性声明
-\newcommand\ustc@originality{%
+\newcommand\szcu@originality{%
   本人声明所呈交的学位论文，是本人在导师指导下进行研究工作所取得的成果。%
   除已特别加以标注和致谢的地方外，论文中不包含任何他人已经发表或撰写过的%
   研究成果。%
   与我一同工作的同志对本研究所做的贡献均已在论文中作了明确的说明。}
-\newcommand\ustc@authorization{%
+\newcommand\szcu@authorization{%
   作为申请学位的条件之一，学位论文著作权拥有者授权中国科学技术大学拥有%
   学位论文的部分使用权，%
   即：学校有权按有关规定向国家有关部门或机构送交论文的复印件和电子版，%
@@ -2119,53 +2119,53 @@
   控阅的学位论文在解密后也遵守此规定。}
   %
   % 生成空的下划线
-\newcommand\ustc@underline[2][3.2cm]{\underline{\hb@xt@ #1{\hss#2\hss}}}
+\newcommand\szcu@underline[2][3.2cm]{\underline{\hb@xt@ #1{\hss#2\hss}}}
 
-\newcommand\ustc@checkbox{%
+\newcommand\szcu@checkbox{%
   \makebox[\z@][l]{$\square$}%
   \raisebox{-0.2ex}{\hspace{0.1em}$\checkmark$}%
 }
 
 \newcommand\copyrightpage{%
   \begin{titlepage}%
-    \ustc@pdfbookmark{原创性和授权使用声明}%
+    \szcu@pdfbookmark{原创性和授权使用声明}%
     \null
     \vskip 0.3cm%
     {\centering\sffamily\fontsize{16bp}{32bp}\selectfont
       中国科学技术大学学位论文原创性声明\par}%
     \vskip 0.7cm%
-    \ustc@originality\par
+    \szcu@originality\par
     \vskip 1.3cm%
-    作者签名：\ustc@underline{}\hspace{2.7cm}%
-    签字日期：\ustc@underline{}\par
+    作者签名：\szcu@underline{}\hspace{2.7cm}%
+    签字日期：\szcu@underline{}\par
     \vskip 1.9cm%
     {\centering\sffamily\fontsize{16bp}{32bp}\selectfont
       中国科学技术大学学位论文授权使用声明\par}%
     \vskip 0.7cm%
-    \ustc@authorization\par
+    \szcu@authorization\par
     \vskip 0.6cm%
-    \ifx\ustc@secret@level\@empty
-      \ustc@checkbox{} 公开\quad
-      $\square$ 控阅（\ustc@underline[0.85cm]{}年）\par
+    \ifx\szcu@secret@level\@empty
+      \szcu@checkbox{} 公开\quad
+      $\square$ 控阅（\szcu@underline[0.85cm]{}年）\par
     \else
       $\square$ 公开\quad
-      \ustc@checkbox{} 控阅（\ustc@underline[0.8cm]{\ustc@secret@year}年）\par
+      \szcu@checkbox{} 控阅（\szcu@underline[0.8cm]{\szcu@secret@year}年）\par
     \fi
     \vskip 0.5cm%
-    作者签名：\ustc@underline{}\hspace{2.7cm}%
-    导师签名：\ustc@underline{}\par
+    作者签名：\szcu@underline{}\hspace{2.7cm}%
+    导师签名：\szcu@underline{}\par
     \vskip 0.5cm%
-    签字日期：\ustc@underline{}\hspace{2.7cm}%
-    签字日期：\ustc@underline{}\par
-    \ifustc@reviewer@true
+    签字日期：\szcu@underline{}\hspace{2.7cm}%
+    签字日期：\szcu@underline{}\par
+    \ifszcu@reviewer@true
       \vskip 1.5cm%
       \hskip -1em%
-      评审专家签名：\ustc@underline{}\hspace{4.5em}%
-      评审专家签名：\ustc@underline{}\par
+      评审专家签名：\szcu@underline{}\hspace{4.5em}%
+      评审专家签名：\szcu@underline{}\par
     \fi
   \end{titlepage}%
 }
-\ifustc@degree@bachelor
+\ifszcu@degree@bachelor
   \let\copyrightpage\relax
 \fi
 % Reserved for compatibility until 2020-07-01.
@@ -2180,12 +2180,12 @@
 % 研究生规定章题为两字时中间空两字，三字时空一字，四字时空半字，四字以上不空。
 % 这里用 \LaTeX3 的 \cs{str\_count:N} 判断字数。
 % 注意，\pkg{stringstrings} 宏包会导致范数命令 \verb+\|+ 被修改。
-\newcount\ustc@titlelength
-\DeclareRobustCommand\ustc@spacetitle[1]{%
-  \ustc@titlelength=\csname str_count:N\endcsname{#1}%
+\newcount\szcu@titlelength
+\DeclareRobustCommand\szcu@spacetitle[1]{%
+  \szcu@titlelength=\csname str_count:N\endcsname{#1}%
   \begingroup
-    \ifustc@degree@graduate
-      \ifcase\ustc@titlelength
+    \ifszcu@degree@graduate
+      \ifcase\szcu@titlelength
       \or\or
         \ziju{2}%
       \or
@@ -2195,7 +2195,7 @@
       \fi
     \else
       \if@mainmatter\else
-        \ifcase\ustc@titlelength
+        \ifcase\szcu@titlelength
         \or\or
           \ziju{1}%
         \or\or
@@ -2207,12 +2207,12 @@
   \endgroup
 }
 
-% 五级节标题和脚注需要使用带圈的数字，这里使用 \cs{ustc@circlefont} ：
-\newcommand\ustc@textcircled[1]{%
+% 五级节标题和脚注需要使用带圈的数字，这里使用 \cs{szcu@circlefont} ：
+\newcommand\szcu@textcircled[1]{%
   \ifnum\value{#1}<21\relax
     {\symbol{\numexpr\value{#1} + "245F\relax}}%
   \else
-    \ustc@error{Cannot display more than 20 footnotes}%
+    \szcu@error{Cannot display more than 20 footnotes}%
   \fi
 }
 
@@ -2230,7 +2230,7 @@
   chapter = {
     format      = \centering\sffamily\bfseries\fontsize{16bp}{26.67bp}\selectfont,
     nameformat  = {},
-    titleformat = \ustc@spacetitle,
+    titleformat = \szcu@spacetitle,
     number      = \thechapter,
     aftername   = \hspace{\ccwd},
     beforeskip  = 24bp,
@@ -2286,7 +2286,7 @@
   % 段前段后 0 磅，序号使用全宽括号，与题名间空半字宽。
   subparagraph = {
     format     = \rmfamily\fontsize{12bp}{20bp}\selectfont,
-    number     = \ustc@textcircled{subparagraph},
+    number     = \szcu@textcircled{subparagraph},
     aftername  = \hspace{0.5\ccwd},
     indent     = 2\ccwd,
     beforeskip = \z@,
@@ -2295,21 +2295,21 @@
   },
 }
 
-\ifustc@degree@bachelor
-  \ifustc@main@language@english
-    \ustcsetup{section-style = arabic}
+\ifszcu@degree@bachelor
+  \ifszcu@main@language@english
+    \szcusetup{section-style = arabic}
   \fi
 \fi
-\ustc@option@hook{main-language}{%
-  \ifustc@degree@bachelor
-    \ifustc@main@language@english
-      \ustcsetup{section-style = arabic}%
+\szcu@option@hook{main-language}{%
+  \ifszcu@degree@bachelor
+    \ifszcu@main@language@english
+      \szcusetup{section-style = arabic}%
     \fi
   \fi
 }
 
 % 在研究生格式的基础上再设置本科生的章节标题格式。
-\ifustc@degree@bachelor
+\ifszcu@degree@bachelor
   \setcounter{secnumdepth}{4}
   \ctexset{
   %
@@ -2346,7 +2346,7 @@
   }
   %
   % 本科生的阿拉伯数字式标题的格式与研究生几乎一致，只有中文数字式需要修改。
-  \ifustc@section@style@arabic\else
+  \ifszcu@section@style@arabic\else
     \ctexset{
       chapter = {
         number = \chinese{chapter},
@@ -2367,14 +2367,14 @@
 % 也不添加进目录或 PDF 书签。
 % 然而像摘要、目录、符号说明这样的章节，它们不需要编号、不加入目录，
 % 但是需要修改页眉，并且加入 PDF 标签。
-% 所以我们新定义 \cs{ustc@chapter} 用于处理这些章节。%
-\NewDocumentCommand\ustc@chapter{o m}{%
+% 所以我们新定义 \cs{szcu@chapter} 用于处理这些章节。%
+\NewDocumentCommand\szcu@chapter{o m}{%
   \if@openright\cleardoublepage\else\clearpage\fi
   \IfValueTF{#1}{%
-    \ustc@pdfbookmark{#1}%
+    \szcu@pdfbookmark{#1}%
     \chaptermark{#1}%
   }{%
-    \ustc@pdfbookmark{#2}%
+    \szcu@pdfbookmark{#2}%
     \chaptermark{#2}%
   }%
   \chapter*{#2}}
@@ -2383,54 +2383,54 @@
 % \subsection{摘要}
 
 % 中文摘要环境。
-\newcommand\ustc@keywords@text{%
-  \ifustc@degree@graduate
-    \ustc@clist@use{\ustc@keywords}{\quad}%
+\newcommand\szcu@keywords@text{%
+  \ifszcu@degree@graduate
+    \szcu@clist@use{\szcu@keywords}{\quad}%
   \else
-    \ustc@clist@use{\ustc@keywords}{；}%
+    \szcu@clist@use{\szcu@keywords}{；}%
   \fi
 }
-\newcommand\ustc@keywords@en@text{%
-  \ifustc@degree@graduate
-    \ustc@clist@use{\ustc@keywords@en}{, }%
+\newcommand\szcu@keywords@en@text{%
+  \ifszcu@degree@graduate
+    \szcu@clist@use{\szcu@keywords@en}{, }%
   \else
-    \ustc@clist@use{\ustc@keywords@en}{; }%
+    \szcu@clist@use{\szcu@keywords@en}{; }%
   \fi
 }
 \newenvironment{abstract}{%
-  \ustcsetup{language=chinese}%
-  \ustc@chapter{摘要}%
+  \szcusetup{language=chinese}%
+  \szcu@chapter{摘要}%
 }{
   \par\null\par\noindent\hangindent=4\ccwd\relax
-  \textbf{关键词}：\ustc@keywords@text\par
-  \ustc@reset@main@language
+  \textbf{关键词}：\szcu@keywords@text\par
+  \szcu@reset@main@language
 }
 
-\newbox\ustc@keywords@box
-\newlength\ustc@keywords@width
+\newbox\szcu@keywords@box
+\newlength\szcu@keywords@width
 
 % 英文摘要环境
 \newenvironment{abstract*}{%
-  \ustcsetup{language=english}%
-  \ifustc@degree@graduate
-    \ustc@chapter[Abstract]{ABSTRACT}%
+  \szcusetup{language=english}%
+  \ifszcu@degree@graduate
+    \szcu@chapter[Abstract]{ABSTRACT}%
   \else
     \begingroup
       % 本科生的英文摘要使用小二号衬线体
       \ctexset{chapter/format=\centering\fontsize{18bp}{33bp}\selectfont}%
-      \ustc@chapter{ABSTRACT}%
+      \szcu@chapter{ABSTRACT}%
     \endgroup
   \fi
 }{
   \par\null\par\noindent
-  \savebox\ustc@keywords@box{\textbf{Key Words}: }%
-  \ustc@keywords@width=\linewidth
-  \advance\ustc@keywords@width-\wd\ustc@keywords@box
-  \textbf{Key Words}: \parbox[t]{\ustc@keywords@width}{\ustc@keywords@en@text\par}\par
-  \ifustc@degree@graduate
+  \savebox\szcu@keywords@box{\textbf{Key Words}: }%
+  \szcu@keywords@width=\linewidth
+  \advance\szcu@keywords@width-\wd\szcu@keywords@box
+  \textbf{Key Words}: \parbox[t]{\szcu@keywords@width}{\szcu@keywords@en@text\par}\par
+  \ifszcu@degree@graduate
     \cleardoublepage
   \fi
-  \ustc@reset@main@language
+  \szcu@reset@main@language
 }
 
 % Reserved for compatibility until 2020-07-01.
@@ -2446,18 +2446,18 @@
 % 研究生规定目录另面起；
 % 本科生规定从目录开始编页码，所以必须另页起。
 \renewcommand\tableofcontents{%
-  \ifustc@degree@bachelor
+  \ifszcu@degree@bachelor
     \cleardoublepage
     \pagenumbering{arabic}%
     \pagestyle{plain}%
   \fi
-  \ustc@chapter{\contentsname}%
+  \szcu@chapter{\contentsname}%
   \@starttoc{toc}%
 }
 
 % 下面用 \pkg{titletoc} 宏包设置目录内容的格式。
 % 先定义目录线：
-\newcommand\ustc@leaders{%
+\newcommand\szcu@leaders{%
   \hspace{2bp}%
   \titlerule*[4bp]{\textperiodcentered}%
   \hspace{2bp}%
@@ -2468,11 +2468,11 @@
 % 各章目录要求宋体 14 磅，单倍行距，段前 6 磅，段后 0 磅，两端对齐，
 % 页码右对齐，章序号与章名间空一字。
 % 但是 Word 模板中实际是行距 20 磅。
-\ifustc@degree@graduate
+\ifszcu@degree@graduate
   \titlecontents{chapter}
     [\z@]{\addvspace{6bp}\fontsize{14bp}{20bp}\selectfont}
     {\contentspush{\thecontentslabel\hspace{\ccwd}}}{}
-    {\fontsize{12bp}{20bp}\selectfont\ustc@leaders\thecontentspage}
+    {\fontsize{12bp}{20bp}\selectfont\szcu@leaders\thecontentspage}
     %
     % 一级节标题目录要求宋体 12 磅，单倍行距，左缩进一字，段前 6 磅，段后 0 磅，
     % 两端对齐，页码右对齐，序号与题名间空一字。
@@ -2480,7 +2480,7 @@
   \titlecontents{section}
     [\ccwd]{\fontsize{12bp}{20bp}\selectfont}
     {\contentspush{\thecontentslabel\hspace{\ccwd}}}{}
-    {\ustc@leaders\thecontentspage}
+    {\szcu@leaders\thecontentspage}
     %
     % 二级节标题目录要求仿宋 12 磅，单倍行距，左缩进两字，段前 6 磅，段后 0 磅，
     % 两端对齐，页码右对齐，序号与题名间空一字。
@@ -2488,34 +2488,34 @@
   \titlecontents{subsection}
     [2\ccwd]{\fangsong\fontsize{12bp}{20bp}\selectfont}
     {\contentspush{\thecontentslabel\hspace{\ccwd}}}{}
-    {\ustc@leaders\thecontentspage}
+    {\szcu@leaders\thecontentspage}
     %
     % 本科生的目录使用小四宋体（同正文字体），其他同研究生的格式相近。
 \else
   \titlecontents{chapter}
     [\z@]{\normalsize}
     {\contentspush{\thecontentslabel\unskip\hspace{\ccwd}}}{}
-    {\ustc@leaders\thecontentspage}
+    {\szcu@leaders\thecontentspage}
   \titlecontents{section}
     [\ccwd]{\normalsize}
     {\contentspush{\thecontentslabel\hspace{\ccwd}}}{}
-    {\ustc@leaders\thecontentspage}
+    {\szcu@leaders\thecontentspage}
   \titlecontents{subsection}
     [2\ccwd]{\normalsize}
     {\contentspush{\thecontentslabel
-      \ifustc@section@style@arabic\hspace{\ccwd}\else 、\fi}}{}
-    {\ustc@leaders\thecontentspage}
+      \ifszcu@section@style@arabic\hspace{\ccwd}\else 、\fi}}{}
+    {\szcu@leaders\thecontentspage}
 \fi
 
 % 本科生要求目录中正文每章前多空一行，而目录、附录等章则不需要空行，
 % 所以不能简单判断 \cs{if@mainmatter}，需要重新定义 \cs{mainmatter} 等命令。
-\newif\ifustc@addtocspace
-\ifustc@degree@bachelor
-  \ustc@addtocspacetrue
-  \g@addto@macro\frontmatter{\ustc@addtocspacefalse}%
-  \g@addto@macro\mainmatter{\ustc@addtocspacetrue}%
-  \g@addto@macro\backmatter{\ustc@addtocspacefalse}%
-  \g@addto@macro\appendix{\ustc@addtocspacefalse}%
+\newif\ifszcu@addtocspace
+\ifszcu@degree@bachelor
+  \szcu@addtocspacetrue
+  \g@addto@macro\frontmatter{\szcu@addtocspacefalse}%
+  \g@addto@macro\mainmatter{\szcu@addtocspacetrue}%
+  \g@addto@macro\backmatter{\szcu@addtocspacefalse}%
+  \g@addto@macro\appendix{\szcu@addtocspacefalse}%
 \fi
 
 % 处理本科生在目录中添加空行。
@@ -2524,8 +2524,8 @@
   \thispagestyle{\CTEX@chapter@pagestyle}%
   \global\@topnum\z@
   \@afterindenttrue
-  \ifustc@degree@bachelor
-    \ifustc@addtocspace
+  \ifszcu@degree@bachelor
+    \ifszcu@addtocspace
       \addtocontents{toc}{\protect\addvspace{12bp}}%
     \fi
   \fi
@@ -2533,33 +2533,33 @@
 }
 
 % 研究生要求图、表的清单须另页起。
-\newlength{\ustc@lof@label@width}
-\newcommand\ustc@set@lof@format{%
-  \settowidth{\ustc@lof@label@width}{\figurename~9.99}%
-  \addtolength{\ustc@lof@label@width}{1em}%
+\newlength{\szcu@lof@label@width}
+\newcommand\szcu@set@lof@format{%
+  \settowidth{\szcu@lof@label@width}{\figurename~9.99}%
+  \addtolength{\szcu@lof@label@width}{1em}%
   \titlecontents{figure}%
-    [\ustc@lof@label@width]{\normalsize}%
-    {\contentslabel[\figurename~\thecontentslabel]{\ustc@lof@label@width}}{}%
-    {\ustc@leaders\thecontentspage}%
+    [\szcu@lof@label@width]{\normalsize}%
+    {\contentslabel[\figurename~\thecontentslabel]{\szcu@lof@label@width}}{}%
+    {\szcu@leaders\thecontentspage}%
   \titlecontents{table}%
-    [\ustc@lof@label@width]{\normalsize}%
-    {\contentslabel[\tablename~\thecontentslabel]{\ustc@lof@label@width}}{}%
-    {\ustc@leaders\thecontentspage}%
+    [\szcu@lof@label@width]{\normalsize}%
+    {\contentslabel[\tablename~\thecontentslabel]{\szcu@lof@label@width}}{}%
+    {\szcu@leaders\thecontentspage}%
 }
-\ustc@set@lof@format
-\ustc@option@hook{main-language}{\ustc@set@lof@format}
+\szcu@set@lof@format
+\szcu@option@hook{main-language}{\szcu@set@lof@format}
 \renewcommand\listoffigures{%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \cleardoublepage
   \fi
-  \ustc@chapter{\listfigurename}%
+  \szcu@chapter{\listfigurename}%
   \@starttoc{lof}%
 }
 \renewcommand\listoftables{%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \cleardoublepage
   \fi
-  \ustc@chapter{\listtablename}%
+  \szcu@chapter{\listtablename}%
   \@starttoc{lot}%
 }
 
@@ -2569,13 +2569,13 @@
 % 研究生规定符号说明另页起，标题字体字号等同论文正文，
 % 《撰写手册》第 9 页 1.10(2) 还规定“符号说明不加页码”。
 \newenvironment{notation}{%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \cleardoublepage
     \pagestyle{headings}%
   \fi
-  \ustc@chapter{\ustc@notation@name}%
+  \szcu@chapter{\szcu@notation@name}%
 }{%
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \clearpage
     \pagestyle{plain}%
   \fi
@@ -2602,8 +2602,8 @@
 % \cs{sloppy} 可以减少“overfull boxes”。
 \sloppy
 
-% 禁止扩大段间距。（\href{https://github.com/ustctug/ustcthesis/issues/209}{
-%   ustctug/ustcthesis\#209}）
+% 禁止扩大段间距。（\href{https://github.com/szcutug/szcuthesis/issues/209}{
+%   szcutug/szcuthesis\#209}）
 \raggedbottom
 
 % 段间距 0 磅。
@@ -2631,7 +2631,7 @@
 \Urlmuskip=0mu plus 0.1mu
 
 % 脚注用带圈的数字：
-\renewcommand\thefootnote{\ustc@textcircled{footnote}}
+\renewcommand\thefootnote{\szcu@textcircled{footnote}}
 
 % LaTeX 默认脚注按章计数，即每章的开始才重置脚注计数器；我们修改为按页计数。
 % 简单的|\@addtoreset{footnote}{page}|并不可靠，
@@ -2656,23 +2656,23 @@
 
 % 调整列表中各项之间过大的间距。
 \setlength\partopsep{\z@}
-\newcommand\ustc@nolistsep{%
+\newcommand\szcu@nolistsep{%
   \parsep 0\p@ \@plus.2\p@
   \topsep 0\p@ \@plus.2\p@
   \itemsep0\p@ \@plus.2\p@
 }
 \def\@listi{\leftmargin\leftmargini
-            \ustc@nolistsep}
+            \szcu@nolistsep}
 \let\@listI\@listi
 \@listi
 \def\@listii {\leftmargin\leftmarginii
               \labelwidth\leftmarginii
               \advance\labelwidth-\labelsep
-              \ustc@nolistsep}
+              \szcu@nolistsep}
 \def\@listiii{\leftmargin\leftmarginiii
               \labelwidth\leftmarginiii
               \advance\labelwidth-\labelsep
-              \ustc@nolistsep}
+              \szcu@nolistsep}
 
 
 % \subsection{浮动体}
@@ -2707,8 +2707,8 @@
 \setlength{\textfloatsep}{6bp}
 \setlength{\intextsep}{6bp}
 
-\DeclareCaptionFont{ustc}{%
-  \ifustc@language@chinese
+\DeclareCaptionFont{szcu}{%
+  \ifszcu@language@chinese
     \fontsize{10.5bp}{13.65bp}\selectfont
   \else
     \fontsize{10.5bp}{12.075bp}\selectfont
@@ -2716,13 +2716,13 @@
 }
 
 \captionsetup{
-  font           = ustc,
+  font           = szcu,
   labelsep       = quad,
   skip           = 6bp,
   figureposition = bottom,
   tableposition  = top,
 }
-\ifustc@degree@graduate
+\ifszcu@degree@graduate
   \captionsetup{font+=bf}
   \captionsetup[table]{font+=sf}
 \fi
@@ -2749,7 +2749,7 @@
    \else
      \addvspace\intextsep
    \fi}%
-  {}{\ustc@patch@error{\@addtocurcol}}
+  {}{\szcu@patch@error{\@addtocurcol}}
 \patchcmd{\@addtocurcol}%
   {\vskip\intextsep \ifnum\outputpenalty <-\@Mii \vskip -\parskip\fi}%
   {\ifnum\outputpenalty <-\@Mii
@@ -2758,9 +2758,9 @@
    \else
      \vskip\intextsep
    \fi}%
-  {}{\ustc@patch@error{\@addtocurcol}}
+  {}{\szcu@patch@error{\@addtocurcol}}
 \patchcmd{\@getpen}{\@M}{\@Mi}
-  {}{\ustc@patch@error{\@getpen}}
+  {}{\szcu@patch@error{\@getpen}}
 
 % 新定义了 \cs{note} 来生成图表的附注。
 % 如果用 \cs{caption} 生成图表的附注会导致图表的序号有误；
@@ -2768,7 +2768,7 @@
 \newcommand\note[1]{%
   \begingroup
     \captionsetup{
-      font          = ustc,
+      font          = szcu,
       margin        = 2\ccwd,
       position      = bottom,
     }%
@@ -2781,7 +2781,7 @@
   \normalsize
 }{%
   \small
-}{}{\ustc@patch@error{\@floatboxreset}}
+}{}{\szcu@patch@error{\@floatboxreset}}
 
 % 对 \pkg{longtable} 跨页表格进行相同的设置。
 %
@@ -2811,19 +2811,19 @@
   %
   % 几种种引用样式，与 \file{bst} 文件名保持一致，
   % 这样在使用 \cs{bibliographystyle} 选择参考文献表的样式时也会设置对应的引用样式。
-  \@namedef{bibstyle@ustcthesis-numerical}{\bibstyle@super}
-  \@namedef{bibstyle@ustcthesis-authoryear}{\bibstyle@authoryear}
-  \@namedef{bibstyle@ustcthesis-bachelor}{\bibstyle@super}
+  \@namedef{bibstyle@szcuthesis-numerical}{\bibstyle@super}
+  \@namedef{bibstyle@szcuthesis-authoryear}{\bibstyle@authoryear}
+  \@namedef{bibstyle@szcuthesis-bachelor}{\bibstyle@super}
   %
   % 如果载入 `natbib` 前设置了 `cite-style`，这里先进行配置。
-  % https://github.com/ustctug/ustcthesis/issues/327
-  \ifx\ustc@cite@style\@empty\else
-    \citestyle{\ustc@cite@style}%
+  % https://github.com/szcutug/szcuthesis/issues/327
+  \ifx\szcu@cite@style\@empty\else
+    \citestyle{\szcu@cite@style}%
   \fi
   %
   % 定义接口 cite-style 切换引用样式。
-  \ustc@option@hook{cite-style}{%
-    \citestyle{\ustc@cite@style}%
+  \szcu@option@hook{cite-style}{%
+    \citestyle{\szcu@cite@style}%
   }
   %
   % 如果文献序号作为叙述文字的一部分，需要临时将文献序号与正文平排
@@ -3072,33 +3072,33 @@
   % 为了将参考文献加入目录和 pdf 书签，重新定义 \pkg{natbib} 的 \cmd{bibsection}
   % 另外如果调用了 \pkg{chapterbib} 或者使用了 \opt{sectionbib} 参数，
   % 需要使用节标题 \cs{section}。
-  \newcommand\ustc@bib@chapter{%
+  \newcommand\szcu@bib@chapter{%
     \@mainmatterfalse
     \chapter{\bibname}%
   }%
-  \newcommand\ustc@bib@section{%
+  \newcommand\szcu@bib@section{%
     \begingroup
       \ctexset{section/numbering=false}%
       \section{\bibname}%
     \endgroup
   }%
   \@ifpackagewith{chapterbib}{sectionbib}{%
-    \ustc@error{The "sectionbib" option cannot be used with chaperbib if natbib loaded}%
+    \szcu@error{The "sectionbib" option cannot be used with chaperbib if natbib loaded}%
   }{}%
   \@ifpackageloaded{chapterbib}{%
-    \let\bibsection\ustc@bib@section
+    \let\bibsection\szcu@bib@section
   }{%
     \@ifxundefined\NAT@sectionbib{%
-      \let\bibsection\ustc@bib@chapter
+      \let\bibsection\szcu@bib@chapter
     }{%
-      \let\bibsection\ustc@bib@section
+      \let\bibsection\szcu@bib@section
     }%
   }%
   %
   % 参考文献列表格式：宋体 10.5 磅，行距 20 磅，续行缩进两字，左对齐。
   % 本科生依然是小四宋体。
   \renewcommand\bibfont{%
-    \ifustc@degree@graduate
+    \ifszcu@degree@graduate
       \fontsize{10.5bp}{20bp}\selectfont
     \else
       \normalsize
@@ -3119,7 +3119,7 @@
     \chapter{\bibname}%
   }
   \renewcommand\bibfont{%
-    \ifustc@degree@graduate
+    \ifszcu@degree@graduate
       \fontsize{10.5bp}{20bp}\selectfont
     \else
       \normalsize
@@ -3134,14 +3134,14 @@
 % 定义了一个满足要求的致谢环境：
 \newenvironment{acknowledgements}{%
   \@mainmatterfalse
-  \chapter{\ustc@acknowledgements@name}%
+  \chapter{\szcu@acknowledgements@name}%
 }{
-  \ifustc@degree@bachelor
+  \ifszcu@degree@bachelor
     \par
     \null\par
     \begingroup
       \raggedleft
-      \ustc@date@zh@short\par
+      \szcu@date@zh@short\par
     \endgroup
   \fi
 }
@@ -3158,7 +3158,7 @@
 % 发表成果环境：
 \newenvironment{publications}{%
   \@mainmatterfalse
-  \chapter{\ustc@publication@name}%
+  \chapter{\szcu@publication@name}%
 }{}
 
 
@@ -3180,7 +3180,7 @@
   }
   %
   % 如果为 \opt{pdf} 样式，设置 hyperlink 颜色
-  \ifustc@output@electronic
+  \ifszcu@output@electronic
     \hypersetup{
       colorlinks = true,
       allcolors  = blue,
@@ -3191,26 +3191,26 @@
   %
   % 填写 PDF 元信息。
   \AtBeginDocument{%
-    \ifustc@main@language@chinese
+    \ifszcu@main@language@chinese
       \hypersetup{
-        pdftitle  = \ustc@title,
-        pdfauthor = \ustc@author,
+        pdftitle  = \szcu@title,
+        pdfauthor = \szcu@author,
       }%
     \else
       \hypersetup{
-        pdftitle  = \ustc@title@en,
-        pdfauthor = \ustc@author@en,
+        pdftitle  = \szcu@title@en,
+        pdfauthor = \szcu@author@en,
       }%
     \fi
   }
   %
   % 添加 PDF 书签
   %
-  \newcounter{ustc@bookmarknumber}
-  \renewcommand\ustc@pdfbookmark[1]{%
+  \newcounter{szcu@bookmarknumber}
+  \renewcommand\szcu@pdfbookmark[1]{%
     \phantomsection
-    \stepcounter{ustc@bookmarknumber}%
-    \pdfbookmark[0]{#1}{ustcchapter.\theustc@bookmarknumber}%
+    \stepcounter{szcu@bookmarknumber}%
+    \pdfbookmark[0]{#1}{szcuchapter.\theszcu@bookmarknumber}%
   }
   %
   % 在 PDF 字符串中去掉换行，以减少 \pkg{hyperref} 的警告信息。
@@ -3220,18 +3220,18 @@
   }
   %
   % \pkg{hyperref} 与 \pkg{unicode-math} 存在一些兼容性问题，见
-  % \href{https://github.com/ustctug/ustcthesis/issues/223}{%
-  %   ustctug/ustcthesis\#223}，
+  % \href{https://github.com/szcutug/szcuthesis/issues/223}{%
+  %   szcutug/szcuthesis\#223}，
   % \href{https://github.com/ho-tex/hyperref/pull/90}{ho-tex/hyperref\#90} 和
-  % \href{https://github.com/ustctug/ustcthesis/issues/235}{%
-  %   ustctug/ustcthesis/\#235}。
+  % \href{https://github.com/szcutug/szcuthesis/issues/235}{%
+  %   szcutug/szcuthesis/\#235}。
   \@ifpackagelater{hyperref}{2019/04/27}{}{%
     \g@addto@macro\psdmapshortnames{\let\mu\textmu}%
   }
   %
   % 设置中文的 \cs{autoref}。
   % \footnote{\url{https://tex.stackexchange.com/a/66150/82731}}
-  \ifustc@language@chinese
+  \ifszcu@language@chinese
     \def\equationautorefname~#1\null{公式~(#1)\null}
     \def\footnoteautorefname{脚注}
     \def\itemautorefname~#1\null{第~#1~项\null}
@@ -3269,52 +3269,52 @@
 % \subsubsection{\pkg{amsthm} 宏包}
 
 \AtEndOfPackageFile*{amsthm}{
-  \newtheoremstyle{ustcplain}
+  \newtheoremstyle{szcuplain}
     {}{}
     {}{2\ccwd}
     {\bfseries}{}
     {\ccwd}{}
-  \theoremstyle{ustcplain}
+  \theoremstyle{szcuplain}
   % 定义新的定理
-  \ifustc@language@chinese
-    \newcommand\ustc@assertion@name{断言}
-    \newcommand\ustc@assumption@name{假设}
-    \newcommand\ustc@axiom@name{公理}
-    \newcommand\ustc@corollary@name{推论}
-    \newcommand\ustc@definition@name{定义}
-    \newcommand\ustc@example@name{例}
-    \newcommand\ustc@lemma@name{引理}
-    \newcommand\ustc@proof@name{证明}
-    \newcommand\ustc@proposition@name{命题}
-    \newcommand\ustc@remark@name{注}
-    \newcommand\ustc@theorem@name{定理}
+  \ifszcu@language@chinese
+    \newcommand\szcu@assertion@name{断言}
+    \newcommand\szcu@assumption@name{假设}
+    \newcommand\szcu@axiom@name{公理}
+    \newcommand\szcu@corollary@name{推论}
+    \newcommand\szcu@definition@name{定义}
+    \newcommand\szcu@example@name{例}
+    \newcommand\szcu@lemma@name{引理}
+    \newcommand\szcu@proof@name{证明}
+    \newcommand\szcu@proposition@name{命题}
+    \newcommand\szcu@remark@name{注}
+    \newcommand\szcu@theorem@name{定理}
   \else
-    \newcommand\ustc@assertion@name{Assertion}
-    \newcommand\ustc@assumption@name{Assumption}
-    \newcommand\ustc@axiom@name{Axiom}
-    \newcommand\ustc@corollary@name{Corollary}
-    \newcommand\ustc@definition@name{Definition}
-    \newcommand\ustc@example@name{Example}
-    \newcommand\ustc@lemma@name{Lemma}
-    \newcommand\ustc@proof@name{Proof}
-    \newcommand\ustc@proposition@name{Proposition}
-    \newcommand\ustc@remark@name{Remark}
-    \newcommand\ustc@theorem@name{Theorem}
+    \newcommand\szcu@assertion@name{Assertion}
+    \newcommand\szcu@assumption@name{Assumption}
+    \newcommand\szcu@axiom@name{Axiom}
+    \newcommand\szcu@corollary@name{Corollary}
+    \newcommand\szcu@definition@name{Definition}
+    \newcommand\szcu@example@name{Example}
+    \newcommand\szcu@lemma@name{Lemma}
+    \newcommand\szcu@proof@name{Proof}
+    \newcommand\szcu@proposition@name{Proposition}
+    \newcommand\szcu@remark@name{Remark}
+    \newcommand\szcu@theorem@name{Theorem}
   \fi
-  \newtheorem{theorem}             {\ustc@theorem@name}    [chapter]
-  \newtheorem{assertion}  [theorem]{\ustc@assertion@name}
-  \newtheorem{axiom}      [theorem]{\ustc@axiom@name}
-  \newtheorem{corollary}  [theorem]{\ustc@corollary@name}
-  \newtheorem{lemma}      [theorem]{\ustc@lemma@name}
-  \newtheorem{proposition}[theorem]{\ustc@proposition@name}
-  \newtheorem{assumption}          {\ustc@assumption@name} [chapter]
-  \newtheorem{definition}          {\ustc@definition@name} [chapter]
-  \newtheorem{example}             {\ustc@example@name}    [chapter]
-  \newtheorem*{remark}             {\ustc@remark@name}
+  \newtheorem{theorem}             {\szcu@theorem@name}    [chapter]
+  \newtheorem{assertion}  [theorem]{\szcu@assertion@name}
+  \newtheorem{axiom}      [theorem]{\szcu@axiom@name}
+  \newtheorem{corollary}  [theorem]{\szcu@corollary@name}
+  \newtheorem{lemma}      [theorem]{\szcu@lemma@name}
+  \newtheorem{proposition}[theorem]{\szcu@proposition@name}
+  \newtheorem{assumption}          {\szcu@assumption@name} [chapter]
+  \newtheorem{definition}          {\szcu@definition@name} [chapter]
+  \newtheorem{example}             {\szcu@example@name}    [chapter]
+  \newtheorem*{remark}             {\szcu@remark@name}
   % \pkg{amsthm} 单独定义了 proof 环境，这里重新定义以满足格式要求。
   % 原本模仿 \pkg{amsthm} 写成 |\item[\hskip\labelsep\hskip2\ccwd #1\hskip\ccwd]|，
   % 但是却会多出一些间隙。
-  \renewenvironment{proof}[1][\ustc@proof@name]{\par
+  \renewenvironment{proof}[1][\szcu@proof@name]{\par
     \pushQED{\qed}%
     \normalfont \topsep6\p@\@plus6\p@\relax
     \trivlist
@@ -3324,7 +3324,7 @@
     }{%
     \popQED\endtrivlist\@endpefalse
   }
-  \renewcommand\qedsymbol{\ustc@qed}
+  \renewcommand\qedsymbol{\szcu@qed}
 }
 
 
@@ -3334,7 +3334,7 @@
 \PassOptionsToPackage{algochapter}{algorithm2e}
 
 \AtEndOfPackageFile*{algorithm2e}{
-  \ifustc@language@chinese
+  \ifszcu@language@chinese
     \SetAlgorithmName{算法}{算法}{算法清单}
   \else
     \SetAlgorithmName{Algorithm}{Algorithm}{List of Algorithms}
@@ -3344,23 +3344,23 @@
   \SetAlCapSkip{6bp}
   \SetAlCapFnt{\small}
   \SetAlCapNameFnt{\small}
-  \ifustc@degree@graduate
+  \ifszcu@degree@graduate
     \SetAlCapNameSty{textbf}
   \fi
   \SetAlgoCaptionSeparator{\unskip\hspace*{\ccwd}}
   %
   % 设置算法清单的格式
   \renewcommand\listofalgocfs{%
-    \ifustc@degree@graduate
+    \ifszcu@degree@graduate
       \cleardoublepage
     \fi
-    \ustc@chapter{\listalgorithmcfname}%
+    \szcu@chapter{\listalgorithmcfname}%
     \@starttoc{loa}%
   }
   \titlecontents{algocf}
     [2.3em]{\normalsize}
     {\contentslabel{2.3em}}{}
-    {\ustc@leaders\contentspage}
+    {\szcu@leaders\contentspage}
   \contentsuse{algocf}{loa}
 }
 
@@ -3380,13 +3380,13 @@
 % \subsubsection{\pkg{nomencl} 宏包}
 
 \AtEndOfPackageFile*{nomencl}{
-  \let\nomname\ustc@notation@name
+  \let\nomname\szcu@notation@name
   \def\thenomenclature{%
-    \ifustc@degree@graduate
+    \ifszcu@degree@graduate
       \cleardoublepage
       \pagestyle{headings}%
     \fi
-    \ustc@chapter{\ustc@notation@name}%
+    \szcu@chapter{\szcu@notation@name}%
     \nompreamble
     \list{}{%
       \labelwidth\nom@tempdim
@@ -3397,7 +3397,7 @@
   \def\endthenomenclature{%
     \endlist
     \nompostamble
-    \ifustc@degree@graduate
+    \ifszcu@degree@graduate
       \clearpage
       \pagestyle{plain}%
     \fi
@@ -3408,8 +3408,8 @@
 % \subsubsection{\pkg{siunitx} 宏包}
 
 \AtEndOfPackageFile*{siunitx}{
-  \newcommand\ustc@set@siunitx@language{%
-    \ifustc@language@chinese
+  \newcommand\szcu@set@siunitx@language{%
+    \ifszcu@language@chinese
       \sisetup{
         list-final-separator = { 和~},
         list-pair-separator  = { 和 },
@@ -3423,8 +3423,8 @@
       }%
     \fi
   }
-  \ustc@set@siunitx@language
-  \ustc@option@hook{language}{\ustc@set@siunitx@language}
+  \szcu@set@siunitx@language
+  \szcu@option@hook{language}{\szcu@set@siunitx@language}
 }
 
 % \subsubsection{\pkg{chapterbib} 宏包}
@@ -3432,7 +3432,7 @@
 \AtEndOfPackageFile*{chapterbib}{
   \@ifpackageloaded{natbib}{%
     \@ifpackagewith{chapterbib}{sectionbib}{%
-      \ustc@error{The "sectionbib" option cannot be used with chaperbib if natbib loaded}%
+      \szcu@error{The "sectionbib" option cannot be used with chaperbib if natbib loaded}%
     }{}%
     \renewcommand\bibsection{%
       \begingroup
