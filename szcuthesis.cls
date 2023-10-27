@@ -1565,7 +1565,7 @@
     % 用小 5 号字（9 bp）标注“苏州城市学院本科毕业论文”，居中；
     % 从目录页开始在每面底部居中用小五宋体（9 bp）连续编页码。
     \def\szcu@hf@font{\fontsize{9bp}{12bp}\selectfont}
-    \fancyhead[C]{\szcu@hf@font 苏州城市学院本科毕业论文}%
+    \fancyhead[C]{\szcu@hf@font 苏州大学文正学院本科生毕业设计(论文)}%
     \fancyfoot[C]{\szcu@hf@font\thepage}%
     \let\@mkboth\@gobbletwo
     \let\chaptermark\@gobble
@@ -1861,7 +1861,7 @@
       \raggedleft\fangsong\fontsize{14bp}{14bp}\selectfont
       \null\szcu@secret@level\par}\par
     \vskip 0.5cm%
-    \includegraphics[height=1.3cm]{figures/szcu-name.pdf}\par
+    \includegraphics[height=1.3cm]{figures/sdwz-badge.pdf}\par
     \vskip 0.6cm%
     {\sffamily\fontsize{56bp}{56bp}\selectfont
       \szcu@thesis@name\par}%
@@ -2037,47 +2037,48 @@
     \szcu@pdfbookmark{Title page}%
     \centering
     % \vspace*{68bp}%
-    \vspace*{29.5bp}%
-    \includegraphics{figures/szcu-name-stxingkai.pdf}\par
-    \vspace{0.8bp}%
+    \vspace*{19.5bp}%
+    \includegraphics{figures/sdwz-badge.pdf}\par
+    \vspace{18.8bp}%
     \begingroup
-      \sffamily\fontsize{56bp}{72.8bp}\selectfont
-      \renewcommand\CJKglue{\hspace{6.2bp}}%
-      本科毕业论文\par
+     \songti\rmfamily\fontsize{38bp}{72.8bp}\selectfont
+      \renewcommand\CJKglue{\hspace{4.2bp}}%
+      \textbf{本科毕业设计(论文)}\par
     \endgroup
+
     \vspace{52bp}%
-    \ifszcu@badge@color@blue
-      \textcolor{szcublue}{%
-        \includegraphics[height=126bp]{figures/szcu-badge.pdf}}%
-    \else
-      \includegraphics[height=4.1cm]{figures/szcu-badge.pdf}%
-    \fi\par
     \vspace{43bp}%
-    \parbox[t][115bp][t]{\textwidth}{%
-      \centering\sffamily\bfseries\fontsize{26bp}{46.8bp}\selectfont
-      \szcu@title\par
-    }\par
+
     \begingroup
       \hspace{10bp}%
-      \heiti\fontsize{16bp}{31.7bp}\selectfont
+      \songti\fontsize{16bp}{31.7bp}\selectfont
       \setlength\tabcolsep{0bp}%
       \setlength\arrayrulewidth{0.5pt}%
       \setlength\szcu@title@page@item@width{238bp}%
       \begin{tabular}{p{90bp}c}%
-        作者姓名： & \makebox[238bp]{\szcu@author} \\
-        \cline{2-2}%
-        学\quad\quad 号： & \makebox[238bp]{\szcu@student@id} \\
-        \cline{2-2}%
-        专\quad\quad 业： & \makebox[238bp]{\szcu@speciality} \\
-        \cline{2-2}%
-        导师姓名： & \makebox[238bp]{\szcu@supervisor@names} \\
-        \cline{2-2}%
-        完成时间： & \makebox[238bp]{\szcu@date@zh@small} \\
-        \cline{2-2}%
+          题\quad\quad 目 & \makebox[238bp] {} \\
+          \cline{2-2}%
+          \quad\quad  & \makebox[238bp] {} \\
+          \cline{2-2}%
+          系\quad\quad 科 & \makebox[238bp] {} \\
+          \cline{2-2}%
+          年\quad\quad 级 & \makebox[238bp] {} \\
+          \cline{2-2}%
+          专\quad\quad 业 & \makebox[238bp]{\szcu@speciality} \\
+          \cline{2-2}%
+          学\quad\quad 号 & \makebox[238bp]{\szcu@student@id} \\
+          \cline{2-2}%
+          姓\quad\quad 名 & \makebox[238bp]{\szcu@author} \\
+          \cline{2-2}%
+          指导教师 & \makebox[238bp]{\szcu@supervisor@names} \\
+          \cline{2-2}%
+          提交时间： & \makebox[238bp]{\szcu@date@zh@small} \\
+          \cline{2-2}%
       \end{tabular}\par
     \endgroup
   \end{titlepage}%
 }
+
 \newlength\szcu@title@page@item@width
 
 % 重新定义 \cs{maketitle}，调用 \cs{szcu@makezhtitle}, \cs{szcu@makeentitle}
