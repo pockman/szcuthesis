@@ -5,9 +5,8 @@
 [![Build](https://github.com/szcutug/szcuthesis/actions/workflows/main.yml/badge.svg)](https://github.com/szcutug/szcuthesis/actions/workflows/main.yml)
 
 本项目是苏州城市学院的学位论文 LaTeX 模板 szcuthesis，按照最新版的
-《[研究生学位论文撰写手册](https://gradschool.szcu.edu.cn/static/upload/article/picture/ce3b02e5f0274c90b9331ef50ae1ac26.pdf)》
 和
-《[苏州城市学院本科毕业论文（设计）格式](https://www.teach.szcu.edu.cn/?attachment_id=13867)》
+《[苏州城市学院本科毕业论文（设计）格式](https://www.szcu.edu.cn/)》
 的要求编写，兼容最新版的 TeX Live、MacTeX 、MiKTeX 发行版，支持跨平台使用。
 
 注意：
@@ -24,14 +23,6 @@
 ## 下载地址
 
 - GitHub Releases：<https://github.com/szcutug/szcuthesis/releases>
-
-- 校内镜像：<https://git.lug.szcu.edu.cn/szcutug/szcuthesis>
-
-- TexPage 模板 <https://texpage.com/template/fe69d6fc-f811-4b8c-824f-7848a07c9551>
-
-- Overleaf 模板 <https://www.overleaf.com/latex/templates/latex-template-for-szcu-thesis/qbfkwzbrfhbr>
-
-- 研究生院网站（版本较旧，不推荐）：<https://gradschool.szcu.edu.cn/column/65>
 
 
 ## 编译文档

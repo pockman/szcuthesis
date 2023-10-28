@@ -2056,23 +2056,23 @@
       \setlength\arrayrulewidth{0.5pt}%
       \setlength\szcu@title@page@item@width{238bp}%
       \begin{tabular}{p{90bp}c}%
-          题\quad\quad 目 & \makebox[238bp] {} \\
+          \textbf{题\quad\quad 目} \makebox[238bp] {} \\
           \cline{2-2}%
           \quad\quad  & \makebox[238bp] {} \\
           \cline{2-2}%
-          系\quad\quad 科 & \makebox[238bp] {} \\
+          \textbf{系\quad\quad 科}& \makebox[238bp] {} \\
           \cline{2-2}%
-          年\quad\quad 级 & \makebox[238bp] {} \\
+          \textbf{年\quad\quad 级}& \makebox[238bp] {} \\
           \cline{2-2}%
-          专\quad\quad 业 & \makebox[238bp]{\szcu@speciality} \\
+          \textbf{专\quad\quad 业}& \makebox[238bp]{\szcu@speciality} \\
           \cline{2-2}%
-          学\quad\quad 号 & \makebox[238bp]{\szcu@student@id} \\
+          \textbf{学\quad\quad 号}& \makebox[238bp]{\szcu@student@id} \\
           \cline{2-2}%
-          姓\quad\quad 名 & \makebox[238bp]{\szcu@author} \\
+          \textbf{姓\quad\quad 名}& \makebox[238bp]{\szcu@author} \\
           \cline{2-2}%
-          指导教师 & \makebox[238bp]{\szcu@supervisor@names} \\
+          \textbf{指导教师}& \makebox[238bp]{\szcu@supervisor@names} \\
           \cline{2-2}%
-          提交时间： & \makebox[238bp]{\szcu@date@zh@small} \\
+          \textbf{提交时间}& \makebox[238bp]{\szcu@date@zh@small} \\
           \cline{2-2}%
       \end{tabular}\par
     \endgroup
